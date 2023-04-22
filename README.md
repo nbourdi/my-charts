@@ -4,7 +4,7 @@
   
 ### Members:
 
-- Athina Mavrommati (el19020)
+- Athina Mavrommati (el19120)
 - Natalia Bourdi (el19031)
 - Giorgos Mystriotis (el19065)
 - Nikolas Stamatopoulos (el19020)
