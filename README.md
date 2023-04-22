@@ -1,11 +1,10 @@
-# NTUA ECE SAAS 2023 PROJECT
+# NTUA ECE SaaS 2023 Project - MyCharts
   
-## TEAM (XX)
+## SaaS23-13
   
-  
-Περιγραφή - οδηγίες
-  
-Περιέχονται φάκελοι για 15 microservices. Ο αριθμός είναι εντελώς ενδεικτικός. Δημιουργήστε ακριβώς όσα απαιτούνται από τη λύση σας.
-  
-  
-  
+### Members:
+
+- Athina Mavrommati (el19020)
+- Natalia Bourdi (el19031)
+- Giorgos Mystriotis (el19065)
+- Nikolas Stamatopoulos (el19020)
