@@ -1,23 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const { kafka, clientId } = require('./broker');
+const { producer, client } = require('./broker');
 const fs = require("fs");
 const { parse } = require("csv-parse");
 var fileupload = require("express-fileupload");
 
-const producer = kafka.producer(); // NEW PRODUCER
-//const consumer = kafka.consumer(); // NEW CONSUMER
-
 const run = async (list) => {
-    await producer.connect()
-    
-    while (true) {
-        await producer.send({
-            topic: "chart1_parser",
-            messages: [
-                { value: list }
-            ]
+    var i = 0
+    while (i<8) { // to eixate while(true)
+        producer.on('ready', () => {
+            producer.send([
+                {
+                    topic: process.env.KAFKA_TOPIC, 
+                    messages: [
+                        {   key: i.toString(),
+                            value: 'hey' }
+                    ]
+                }
+            ])
         })
+        ++i
     }
 }
 

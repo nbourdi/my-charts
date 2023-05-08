@@ -3,22 +3,21 @@ const express = require('express'),
  app = express(),
  webapp = express(),
  router = express.Router();
+const kafka = require('kafka-node')
 const https = require('https');
 const fs = require('fs');
 const cors = require('cors');
 
 const fileupload = require("express-fileupload");
 
-const PORT = 9103;
 const baseurl = '/my_charts1';
 
 const server = https.createServer(/*{ key, cert },*/ app);
 const webserver = https.createServer(/*{ key, cert },*/ webapp);
-
 // API WEB SERVER
 
-app.listen(PORT, () => {								//rest api listening to port 9103 and
-	console.log(`App listening at: http://localhost:${PORT}${baseurl}`);		//creating url to access endpoints from
+app.listen(process.env.PORT, () => {								//rest api listening to port 9103 and
+	console.log(`App listening at: http://localhost:9103${baseurl}`);		//creating url to access endpoints from
 });
 
 app.get(baseurl, function (req,res) {											
