@@ -7,20 +7,19 @@ var fileupload = require("express-fileupload");
 
 const run = async (list) => {
     var i = 0
-    while (i<8) { // to eixate while(true)
-        producer.on('ready', () => {
-            producer.send([
-                {
-                    topic: process.env.KAFKA_TOPIC, 
-                    messages: [
-                        {   key: i.toString(),
-                            value: 'hey' }
-                    ]
-                }
-            ])
-        })
-        ++i
-    }
+    producer.on('ready', () => {
+        console.log('i sent stuff')
+        producer.send([
+            {
+                topic: process.env.KAFKA_TOPIC, 
+                messages: [
+                    {   key: i.toString(),
+                        value: 'hey' }
+                ]
+            }
+        ])
+    })
+    
 }
 
 router.get('/', function (req, res) {

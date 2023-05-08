@@ -1,8 +1,8 @@
 FROM node:16.9.0-alpine
 
-WORKDIR /microservice01
+WORKDIR /app
 
-COPY package*.json index.js /microservice01/
+COPY package*.json index.js /app/
 
 RUN npm install
 RUN npm i -g nodemon
