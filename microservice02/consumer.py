@@ -5,7 +5,7 @@ from json import dumps
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import json
+import sys
 
 
 '''consumer = KafkaConsumer(
@@ -26,9 +26,15 @@ import json
 '''
 #def create_bar_chart(char, val):
 
-#series = [('red', 'blue', 'violet', 'magenta', 'green'), (2, 3, 8, 5, 7)]
 series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
 
+tit1 = str(sys.argv[1])
+tit2 = str(sys.argv[2])
+data = sys.agrv[3]
+print(tit1)
+print(tit2)
+print(data)
+'''
 characteristics = np.array(series[0])
 values = np.array(series[1])
 
@@ -60,4 +66,4 @@ for val, val_count in data.items():
 ax.set_title('Number of penguins by sex')
 ax.legend()
 
-plt.show()
+plt.show()'''

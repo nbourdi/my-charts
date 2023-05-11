@@ -1,6 +1,9 @@
-category, height
-red, 2
-blue, 3
-violet, 8
-magenta, 5
-green, 7
+color, gender
+red, M
+blue, F
+red, F
+red, M
+blue, F
+green, F
+yellow, M
+magenta, F
