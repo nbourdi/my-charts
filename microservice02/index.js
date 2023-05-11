@@ -1,15 +1,27 @@
-const path = require('path')
-const kafka = require('kafka-node')
+const { Kafka } = require('kafkajs');
 
+const kafka = new Kafka({
+  clientId: 'chart_1_consumer',
+  brokers: ['kafka:9092'],
+});
 
-const client = new kafka.KafkaClient({kafkaHost: process.env.KKAFKA_BOOTSTRAP_SERVERS})
-const consumer = new kafka.Consumer(client, [{ topic: process.env.KAFKA_TOPIC }],
-    { 
-        autocommit: false
-    })
+const consumer = kafka.consumer({ groupId: 'group_1' });
 
-consumer.on('message', async (message) => {  /// edw mesa antidra
-    console.log('i got data chart produce')
-})
+async function run() {
+  await consumer.connect();
+  await consumer.subscribe({ topic: 'chart_1', fromBeginning: true });
 
-module.exports = { client, consumer };
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      const key = message.key.toString();
+      const value = JSON.parse(message.value.toString());
+      console.log(`Received message on topic ${topic}, partition ${partition}:`);
+      console.log(`Key: ${key}`);
+      console.log(`Value: ${value}`);
+    }
+  });
+}
+
+run().catch(console.error);
+
+module.exports = { consumer };

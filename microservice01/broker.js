@@ -1,18 +1,20 @@
-const path = require('path')
-// require("dotenv").config({ path: path.resolve(__dirname, './.env') });
-// const { Kafka } = require ('kafkajs'); // Kafka instance
-const kafka = require('kafka-node')
+const { Kafka } = require('kafkajs');
 
+const kafka = new Kafka({
+    clientId: 'chart1_producer',
+    brokers: ['kafka:9092']
+  });
+  
+const producer = kafka.producer();
+async function start() {
+    try {
+      await producer.connect();
+      console.log('Connected to Kafka broker');
+    } catch (error) {
+      console.error('Failed to connect to Kafka broker', error);
+    }
+}
 
-const client = new kafka.KafkaClient({kafkaHost: process.env.KKAFKA_BOOTSTRAP_SERVERS})
-const producer = new kafka.Producer(client)
+start();
 
-// const clientId = "producer"; // it lets kafka know who produced the messages
-
-// // INITIALIZE A BROKER
-// const kafka = new Kafka({
-// 	clientId: "producer",
-// 	brokers: ["kafka:9092"],  // [env.get("KAFKA_BOOTSTRAP_SERVER").required().asString()],
-//  })
-
-module.exports = { client, producer };
+module.exports = { producer };

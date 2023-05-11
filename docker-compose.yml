@@ -10,11 +10,14 @@ services:
   kafka: 
     container_name: kafka
     image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
     ports:
       - 9092:9092
     volumes:
       - ./data/kafka:/var/run/docker.sock
     environment:
+      - KAFKA_BROKER_ID=1
       - KAFKA_ADVERTISED_HOST_NAME=kafka
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
 
@@ -36,13 +39,12 @@ services:
     container_name: micro2
     build: ./microservice02
     ports: 
-      - 9104:9103
+      - 9104:9104
     volumes:
       - ./microservice02:/app
     environment:
-      - PORT=9104
-      - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - KAFKA_TOPIC=topic1
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: chart_1
     depends_on:
       - kafka
 
