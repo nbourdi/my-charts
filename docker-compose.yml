@@ -48,3 +48,32 @@ services:
     depends_on:
       - kafka
 
+  charts_to_database: 
+    container_name: charts_to_database
+    build: ./microservice04
+    ports:
+      - 9106:9106
+    volumes:
+      - ./microservice04:/app
+    links:
+      - mongodb_charts
+
+  charts_from_database: 
+    container_name: charts_from_database
+    build: ./microservice05
+    ports:
+      - 9107:9107
+    volumes:
+      - ./microservice05:/app
+    links:
+      - mongodb_charts
+
+  mongodb_charts:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+volumes:
+  data:
