@@ -1,7 +1,7 @@
-const { consumer }  = require("./broker");
+const { consumer } = require("./broker");
 const express = require("express");
 const router = express.Router();
-const { charts } = require('./chartsModel');
+const { Charts } = require('./chartsModel');
 var mongoose = require('mongoose');
 
 
@@ -22,10 +22,10 @@ async function read_user_from_kafka() {
 
             user = { 'user_email': user_email };
 
-            var users_charts = await charts.find({ user_email: user.user_email }).then(function () {
+            const users_charts = await charts.find({ user_email: user.user_email }).then(function () {
                 console.log("Got users charts.");
                 res.status(200).json(users_charts);
-            }).catch(console.error);
+            });
         }
     });
 
@@ -41,14 +41,17 @@ router.get('/', async (req, res) => {
         var charts_db = mongoose.connection;
 
         charts_db.on('error', console.error.bind(console, "CONNECTION ERROR"));
-        charts_db.once('open', function () {
+        charts_db.once('open', async function () {
             //we are connected
             console.log("Connected and ready to get charts!");
-        })
+            const users_charts = await Charts.find({}).then((charts) => {
+                console.log("Got users charts.");
+                res.send(charts);
+            });
+        });
 
-        read_user_from_kafka().catch(console.error);
+        //read_user_from_kafka().catch(console.error);
 
-        charts_db.close();
 
     } catch (error) {
         console.error(error);

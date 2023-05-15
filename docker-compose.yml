@@ -69,6 +69,7 @@ services:
       - mongodb_charts
 
   mongodb_charts:
+    container_name: mongodb_charts
     image: mongo:latest
     ports:
       - 27017:27017
