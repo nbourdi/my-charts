@@ -70,6 +70,3 @@ passport.deserializeUser(function(user, done) {
 });
 
 module.exports = passport;
-
-
-module.exports = passport;
