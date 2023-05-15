@@ -2,9 +2,9 @@ from json import dumps
 #from kafka import KafkaProducer
 #from kafka import KafkaConsumer
 #from pymongo import MongoClient
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import sys
 
 
@@ -29,11 +29,14 @@ import sys
 series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
 
 tit1 = str(sys.argv[1])
-tit2 = str(sys.argv[2])
-data = sys.agrv[3]
 print(tit1)
-print(tit2)
-print(data)
+# tit2 = str(sys.argv[1])
+# data = sys.agrv[2]
+
+# print(tit2)
+# print(data)
+
+print("consumer.py talking")
 '''
 characteristics = np.array(series[0])
 values = np.array(series[1])

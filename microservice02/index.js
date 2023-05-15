@@ -26,61 +26,61 @@ async function run() {
         console.log(`Data ${i}: ${value.data[i].category} - ${value.data[i].value}`);
       }
 
-      chartExporter.initPool();
-      const chartDetails = {
-        type: "png",
-        options: {
-            chart: {
-                type: "pie"
-            },
-            title: {
-                text: "Heading of Chart"
-            },
-            plotOptions: {
-                pie: {
-                    dataLabels: {
-                        enabled: true,
-                        format: "<b>{point.name}</b>: {point.y}"
-                    }
-                }
-            },
-            series: [
-                {
-                    data: [
-                        {
-                            name: "a",
-                            y: 100
-                        },
-                        {
-                            name: "b",
-                            y: 20
-                        },
-                        {
-                            name: "c",
-                            y: 50
-                        }
-                    ]
-                }
-            ]
-        }
-     };
-     chartExporter.export(chartDetails, (err, res) => {
-      // Get the image data (base64)
-      let imageb64 = res.data;
-      // Filename of the output
-      let outputFile = "bar.png";
-      // Save the image to file
-      fs.writeFileSync(outputFile, imageb64, "base64", function(err) {
-          if (err) console.log(err);
-      });
-      console.log("Saved image!");
-      chartExporter.killPool();
-      });     
-      /*const { spawn } = require('child_process');
+    //   chartExporter.initPool();
+    //   const chartDetails = {
+    //     type: "png",
+    //     options: {
+    //         chart: {
+    //             type: "pie"
+    //         },
+    //         title: {
+    //             text: "Heading of Chart"
+    //         },
+    //         plotOptions: {
+    //             pie: {
+    //                 dataLabels: {
+    //                     enabled: true,
+    //                     format: "<b>{point.name}</b>: {point.y}"
+    //                 }
+    //             }
+    //         },
+    //         series: [
+    //             {
+    //                 data: [
+    //                     {
+    //                         name: "a",
+    //                         y: 100
+    //                     },
+    //                     {
+    //                         name: "b",
+    //                         y: 20
+    //                     },
+    //                     {
+    //                         name: "c",
+    //                         y: 50
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     }
+    //  };
+    //  chartExporter.export(chartDetails, (err, res) => {
+    //   // Get the image data (base64)
+    //   let imageb64 = res.data;
+    //   // Filename of the output
+    //   let outputFile = "bar.png";
+    //   // Save the image to file
+    //   fs.writeFileSync(outputFile, imageb64, "base64", function(err) {
+    //       if (err) console.log(err);
+    //   });
+    //   console.log("Saved image!");
+    //   chartExporter.killPool();
+    //   });     
+      const { spawn } = require('child_process');
       const pythonScriptPath = 'consumer.py';
       const pythonArgs = [value.title1, value.title2, value.data];
 
-      const pythonProcess = spawn('python', [pythonScriptPath, ...pythonArgs]);
+      const pythonProcess = spawn('python3', [pythonScriptPath, pythonArgs]);
 
       pythonProcess.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
@@ -92,7 +92,7 @@ async function run() {
 
       pythonProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
-      });*/
+      });
     }
   });
 }
