@@ -1,10 +1,14 @@
+
 const express = require('express');
 const session = require('express-session');
 const passport = require('./auth');
 const connection = require('./db');
+const cors = require("cors");
 
 const app = express();
-const port = 3000;
+const port = 5000;
+
+const CLIENT_URL = "http://localhost:3000/";
 
 app.use(session({
   secret: 'your-secret-key',
@@ -15,6 +19,8 @@ app.use(session({
 app.use(passport.initialize());
 //needed for the user to stay connected
 app.use(passport.session());
+
+app.use(cors());
 
 
 app.get('/', function(req, res) {
@@ -40,13 +46,13 @@ app.get('/', function(req, res) {
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
+app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: CLIENT_URL, failureRedirect: '/login' }), function(req, res) {
   connection.query('SELECT * FROM users WHERE email = ?', [req.user.email], function(err, results, fields) {
     if (err) {
       return done(err);
     }
     if (results.length === 0) {
-      res.redirect('/confirm');
+      res.redirect('/');
     } else {
       res.redirect('/success');
     }
@@ -149,13 +155,6 @@ app.get('/confirm', function(req, res) {
   `;
   res.send(html);
 });
-
-
-
-
-
-
-
 
 
 app.listen(port, function() {

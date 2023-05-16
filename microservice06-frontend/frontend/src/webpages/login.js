@@ -1,12 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import Google from "../img/google.png";
 
-function SignInPage() {
+const Login = () => {
+  const google = () => {
+    window.open("http://localhost:5000/auth/google", "_self");
+  };
+
   return (
-  <div> 
-    <h2> Please login to use our service!</h2>
-    <div id="signinDiv"> </div>
-  </div>
+    <div className="login">
+      <h1 className="loginTitle">Choose a Login Method</h1>
+      <div className="wrapper">
+        <h3> Sign in to start creating your charts! </h3>
+        <div className="left">
+          <div className="loginButton google" onClick={google}>
+            <img src={Google} alt="" className="icon" />
+            Google Sign In
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
-export default SignInPage;
+export default Login;
