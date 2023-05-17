@@ -3,9 +3,10 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const connection = require('./db');
 
 passport.use(new GoogleStrategy({
-    clientID: '685265707630-cu01glrigkok8nmqh89rek6untr7te5f.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
+    clientID: '100104718200-esp9hr1ti2hudrtekmrsfe83peg6sapc.apps.googleusercontent.com',
+    clientSecret: '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',
+    callbackURL: 'http://localhost:3000',
+    proxy: true
   }, 
   function(accessToken, refreshToken, profile, done) {
     connection.query('SELECT * FROM users WHERE email = ?', [profile.emails[0].value], function(err, results, fields) {

@@ -4,11 +4,13 @@ const session = require('express-session');
 const passport = require('./auth');
 const connection = require('./db');
 const cors = require("cors");
-
+const axios = require("axios");
 const app = express();
-const port = 5000;
+const port = 3000;
 
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = "http://localhost:3030";
+// const CLIENT_URL = "http://localhost:3000";
+
 
 app.use(session({
   secret: 'your-secret-key',
@@ -23,43 +25,68 @@ app.use(passport.session());
 app.use(cors());
 
 
-app.get('/', function(req, res) {
-    res.redirect('/home');
-  });
+app.options('*', cors()); // Enable preflight requests for all routes
 
-  app.get('/home', function(req, res) {
-    const html = `
-      <html>
-        <head>
-          <title>My charts</title>
-        </head>
-        <body>
-          <h1>My charts</h1>
-          <a href="/auth/google"><button>Connect with Google</button></a>
-        </body>
-      </html>
-    `;
-    res.send(html);
-  });
+
+// app.get('/', function(req, res) {
+//     res.redirect('/home');
+//   });
+
+  // app.get('/home', function(req, res) {
+  //   const html = `
+  //     <html>
+  //       <head>
+  //         <title>My charts</title>
+  //       </head>
+  //       <body>
+  //         <h1>My charts</h1>
+  //         <a href="/auth/google"><button>Connect with Google</button></a>
+  //       </body>
+  //     </html>
+  //   `;
+  //   res.send(html);
+  // });
   
   
 
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: CLIENT_URL, failureRedirect: '/login' }), function(req, res) {
-  connection.query('SELECT * FROM users WHERE email = ?', [req.user.email], function(err, results, fields) {
-    if (err) {
-      return done(err);
-    }
-    if (results.length === 0) {
-      res.redirect('/');
-    } else {
-      res.redirect('/success');
-    }
+  app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }), function(req, res) {
+    console.log("im auth/google and i say");
+    console.log(req.user.email);
   });
+
+  app.get('/', passport.authenticate('google', {  failureRedirect: '/auth/google' }), function(req, res) {
+    connection.query('SELECT * FROM users WHERE email = ?', [req.user.email], function(err, results, fields) {
+      if (err) {
+        return done(err);
+      }
+      // if (results.length === 0) {
+      //   res.redirect('/confirm');
+      // } else {
+      //   res.redirect('/success');
+      // }
+      console.log("hi");
+      // console.log(req.user.email)
+      res.send(req.user.email);
+    });
+  });
+
+
+app.get('/getUser', async (req, res)=> {
+    axios.get('http://localhost:3000/auth/google')
+    .then(resp => {
+      // console.log(resp.data);
+      res.status(200).json({ data: "get user here"});
+    })
 });
 
-app.get('/create', async function(req, res) {
+// here is an example of a custom authenticate express middleware 
+// const authenticated = (req,res,next)=>{
+//     const customError = new Error('you are not logged in');
+//     customError.statusCode = 401;
+//     (!req.user) ? next(customError) : next()
+// }
+
+app.get('/auth/create', async function(req, res) {
   try {
     if (!req.user) {
       res.redirect('/auth/google');
@@ -77,7 +104,7 @@ app.get('/create', async function(req, res) {
           res.status(500).send("Error logging in user");
         } else {
           console.log("User logged in:", user);
-          res.redirect('/success');
+          res.redirect('/auth/success');
         }
       });
       return;
@@ -108,7 +135,7 @@ app.get('/create', async function(req, res) {
     });
   
     console.log("User logged in:", user);
-    res.redirect('/success');
+    res.redirect('/auth/success');
   } catch (err) {
     console.error("Error creating user:", err);
     res.status(500).send("Error creating user");
@@ -116,7 +143,7 @@ app.get('/create', async function(req, res) {
 });
 
 
-app.get('/cancel', function(req, res) {
+app.get('/auth/cancel', function(req, res) {
   connection.query('DELETE FROM users WHERE email = ?', [req.user.email]);
   req.session.destroy(function(err) {
     if (err) {
@@ -156,6 +183,16 @@ app.get('/confirm', function(req, res) {
   res.send(html);
 });
 
+app.get('/signout', function(req, res) {
+  req.logout(); // Passport's logout function
+  req.session.destroy(function(err) {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return res.status(500).send("Error destroying session");
+    }
+    res.redirect('/');
+  });
+});
 
 app.listen(port, function() {
   console.log('Server listening on port ' + port);

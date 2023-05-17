@@ -11,21 +11,17 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const getUser = () => {
-      axios.get("http://localhost:5000/auth/google")
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
+
+      axios.get('http://localhost:3000/getUser')
+        .then(response => {
+          // setUser(response.data);
+          console.log(response.data.data);
         })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
+        .catch( err => 
+          console.log(err)); 
+
   }, []);
+  
 
   return (
     <BrowserRouter>
@@ -39,7 +35,9 @@ const App = () => {
           />
           <Route
             path="/create"
-            element={user ? <CreateBar /> : <Navigate to="/login" />}
+            // NEED TO UNCOMMENT , DID CAUSE WAS REDIRECTING..
+            // element={user ? <CreateBar /> : <Navigate to="/login" />}
+            element={<CreateBar />}
           />
         </Routes>
       </div>

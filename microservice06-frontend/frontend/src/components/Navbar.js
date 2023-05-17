@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 const Navbar = ({ user }) => {
-//   const logout = () => {
-//     window.open("http://localhost:5000/auth/logout", "_self");
-//   };
+  const logout = () => {
+    window.open("http://localhost:3000/signout", "_self");
+  };
   return (
     <div className="navbar">
       <span className="logo">
@@ -21,7 +21,7 @@ const Navbar = ({ user }) => {
             />
           </li>
           <li className="listItem">{user.displayName}</li>
-          <li className="listItem" >
+          <li className="listItem" onClick={logout}>
             Logout
           </li>
         </ul>

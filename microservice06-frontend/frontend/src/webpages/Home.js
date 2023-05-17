@@ -1,7 +1,16 @@
 const Home = () => {
     return (
         <div className="home">
-           <h1>home page</h1>
+            <div>
+                <h1>
+                   Welcome to MyCharts! 
+                   <div>--imagine a carousel of charts</div>
+                        
+                </h1>
+             </div>
+           <div>
+          
+            </div>
         </div>
     )
 }
