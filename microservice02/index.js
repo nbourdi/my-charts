@@ -18,67 +18,22 @@ async function run() {
     eachMessage: async ({ topic, partition, message }) => {
       const key = message.key.toString();
       const value = JSON.parse(message.value.toString());
-      console.log(`Received message on topic ${topic}, partition ${partition}:`);
-      console.log(`Key: ${key}`);
-      console.log(`Category: ${value.title1}`);
-      console.log(`Value: ${value.title2}`);
-      for (let i = 0; i < value.data.length; i++) {
-        console.log(`Data ${i}: ${value.data[i].category} - ${value.data[i].value}`);
-      }
+     // console.log(`Received message on topic ${topic}, partition ${partition}:`);
+     // console.log(`Key: ${key}`);
+     // console.log(`Category: ${value.title1}`);
+     // console.log(`Value: ${value.title2}`);
+      //for (let i = 0; i < value.data.length; i++) {
+     //   console.log(`Data ${i}: ${value.data[i].category} - ${value.data[i].value}`);
+     // }
 
-    //   chartExporter.initPool();
-    //   const chartDetails = {
-    //     type: "png",
-    //     options: {
-    //         chart: {
-    //             type: "pie"
-    //         },
-    //         title: {
-    //             text: "Heading of Chart"
-    //         },
-    //         plotOptions: {
-    //             pie: {
-    //                 dataLabels: {
-    //                     enabled: true,
-    //                     format: "<b>{point.name}</b>: {point.y}"
-    //                 }
-    //             }
-    //         },
-    //         series: [
-    //             {
-    //                 data: [
-    //                     {
-    //                         name: "a",
-    //                         y: 100
-    //                     },
-    //                     {
-    //                         name: "b",
-    //                         y: 20
-    //                     },
-    //                     {
-    //                         name: "c",
-    //                         y: 50
-    //                     }
-    //                 ]
-    //             }
-    //         ]
-    //     }
-    //  };
-    //  chartExporter.export(chartDetails, (err, res) => {
-    //   // Get the image data (base64)
-    //   let imageb64 = res.data;
-    //   // Filename of the output
-    //   let outputFile = "bar.png";
-    //   // Save the image to file
-    //   fs.writeFileSync(outputFile, imageb64, "base64", function(err) {
-    //       if (err) console.log(err);
-    //   });
-    //   console.log("Saved image!");
-    //   chartExporter.killPool();
-    //   });     
       const { spawn } = require('child_process');
       const pythonScriptPath = 'consumer.py';
-      const pythonArgs = [value.title1, value.title2, value.data];
+      var pythonArgs = [value.title1, value.title2]
+      for (let i = 0; i < value.data.length; i++) {
+        pythonArgs.push(value.data[i].category);
+        pythonArgs.push(value.data[i].value);
+      }
+      //const pythonArgs = [value.title1, value.title2, value.data];
 
       const pythonProcess = spawn('python3', [pythonScriptPath, pythonArgs]);
 

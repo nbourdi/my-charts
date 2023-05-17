@@ -1,43 +1,33 @@
 from json import dumps
-#from kafka import KafkaProducer
-#from kafka import KafkaConsumer
 #from pymongo import MongoClient
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
-#import pandas as pd
+import pandas as pd
 import sys
 
 
-'''consumer = KafkaConsumer(
-    'chart1_parser',
-     bootstrap_servers=['localhost:9092'],
-     auto_offset_reset='earliest',
-     enable_auto_commit=True,
-     group_id='my-group',
-     value_deserializer=lambda x: loads(x.decode('utf-8')))
-#producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
- #                        value_serializer=lambda x: 
- #                       dumps(x).encode('utf-8'))
+arg_string = sys.argv[1]
+arg_values = arg_string.split(',')
 
-#for message in consumer:
- #   series = message.value
- #  collection.insert_one(message)
- #   print('{} added to {}'.format(message, collection))
-'''
-#def create_bar_chart(char, val):
+data1 = []
+data2 = []
 
-series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
+tit1 = arg_values[0]
+tit2 = arg_values[1]
 
-tit1 = str(sys.argv[1])
-print(tit1)
-# tit2 = str(sys.argv[1])
-# data = sys.agrv[2]
+for value in arg_values[2::2]:
+    data1.append(value)
 
+for value in arg_values[3::2]:
+    data2.append(value)
+
+series = [data1, data2]
 # print(tit2)
-# print(data)
+#print(data)'''
+#series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
 
-print("consumer.py talking")
-'''
+#print("consumer.py talking")
+
 characteristics = np.array(series[0])
 values = np.array(series[1])
 
@@ -56,7 +46,7 @@ for value in dataset['values'].unique():
 print(data)
 chars = np.array(dataset['char'].unique())
 print(chars)
-width = (1.8 / chars.size)
+width = (1.8 / 1.2)
 
 fig, ax = plt.subplots()
 bottom = np.zeros(chars.size)
@@ -66,7 +56,8 @@ for val, val_count in data.items():
     bottom += val_count
     ax.bar_label(p, label_type='center')
 
-ax.set_title('Number of penguins by sex')
+#ax.set_title(tit1, ' by ', tit2)
 ax.legend()
 
-plt.show()'''
+plt.show()
+plt.savefig('foo.png')
