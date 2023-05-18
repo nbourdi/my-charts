@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 
 const Navbar = ({ user }) => {
-  const logout = () => {
-    window.open("http://localhost:3000/signout", "_self");
-  };
+  const logout = () => {    
+    window.open("http://localhost:3000/logout", "_self");
+    setTimeout(() => {
+      window.location.href = "http://localhost:3030/"; // Redirect to the home page
+    }, 1000);  };
   return (
     <div className="navbar">
       <span className="logo">
