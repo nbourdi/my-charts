@@ -5,7 +5,7 @@ const Navbar = ({ user }) => {
     window.open("http://localhost:3000/logout", "_self");
     setTimeout(() => {
       window.location.href = "http://localhost:3030/"; // Redirect to the home page
-    }, 1000);  };
+    }, 800);  };
   return (
     <div className="navbar">
       <span className="logo">
