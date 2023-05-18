@@ -1,10 +1,10 @@
 from json import dumps
-#from pymongo import MongoClient
+from matplotlib.backends.backend_svg import FigureCanvasSVG
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import sys
-
+import io
 
 arg_string = sys.argv[1]
 arg_values = arg_string.split(',')
@@ -22,11 +22,8 @@ for value in arg_values[3::2]:
     data2.append(value)
 
 series = [data1, data2]
-# print(tit2)
-#print(data)'''
-#series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
 
-#print("consumer.py talking")
+#series = [('red', 'blue', 'red', 'red', 'blue', 'green', 'yellow', 'magenta'), ('M', 'F', 'F', 'M', 'F', 'F', 'M', 'F')]
 
 characteristics = np.array(series[0])
 values = np.array(series[1])
@@ -46,7 +43,7 @@ for value in dataset['values'].unique():
 print(data)
 chars = np.array(dataset['char'].unique())
 print(chars)
-width = (1.8 / 1.2)
+width = (1.8 / chars.size)
 
 fig, ax = plt.subplots()
 bottom = np.zeros(chars.size)
@@ -56,8 +53,15 @@ for val, val_count in data.items():
     bottom += val_count
     ax.bar_label(p, label_type='center')
 
-#ax.set_title(tit1, ' by ', tit2)
+ax.set_title(tit1 + ' by ' + tit2)
 ax.legend()
 
-plt.show()
+#plt.show()
 plt.savefig('foo.png')
+svg_bytes = io.BytesIO()
+canvas = FigureCanvasSVG(fig)
+canvas.print_svg(svg_bytes)
+plt.close()
+
+svg_string = svg_bytes.getvalue().decode()
+print(svg_string)

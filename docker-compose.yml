@@ -44,7 +44,8 @@ services:
       - ./microservice02:/app
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      KAFKA_TOPIC: chart_1
+      KAFKA_CONSUMER_TOPIC: chart_1
+      KAFKA_PRODUCER_TOPIC: chart_to_database
     depends_on:
       - kafka
 

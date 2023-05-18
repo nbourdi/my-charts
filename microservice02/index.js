@@ -6,6 +6,7 @@ const kafka = new Kafka({
 });
 
 const consumer = kafka.consumer({ groupId: 'group_1' });
+const producer = kafka.producer();
 
 const fs = require("fs");
 const chartExporter = require("highcharts-export-server");
@@ -37,8 +38,19 @@ async function run() {
 
       const pythonProcess = spawn('python3', [pythonScriptPath, pythonArgs]);
 
-      pythonProcess.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+      pythonProcess.stdout.on('data', async (data) => {
+        //console.log(`stdout: ${data}`);
+        const message = {
+          key: 'key',
+          value: JSON.stringify({
+            svg: data
+          })
+        };
+        await producer.connect();
+        await producer.send({
+          topic: 'chart_to_database',
+          messages: [ message ]
+        });
       });
 
       pythonProcess.stderr.on('data', (data) => {
