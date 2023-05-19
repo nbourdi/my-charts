@@ -27,7 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const chart1_parser = require('./parser');
+const uploader = require('./uploader');
 
 app.use(baseurl+'/chart1_parser', chart1_parser);
+app.use(baseurl+'/chart1_uploader', uploader);
 
 module.exports = router;
