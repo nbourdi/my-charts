@@ -77,5 +77,61 @@ services:
     volumes:
       - data:/data/db
 
+  chart2_parser:
+    container_name: chart2_parser
+    build: ./chart2_parser
+    ports: 
+      - 9111:9111
+    volumes:
+      - ./chart2_parser:/app
+    environment:
+      - PORT=9111
+      - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=chart2
+    depends_on:
+      - kafka
+
+  chart2_creator:
+    container_name: chart2_creator
+    build: ./chart2_creator
+    ports: 
+      - 9112:9112
+    volumes:
+      - ./chart2_creator:/app
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_TOPIC: chart_2
+      KAFKA_PRODUCER_TOPIC: chart_to_database
+    depends_on:
+      - kafka
+
+  chart3_parser:
+    container_name: chart3_parser
+    build: ./chart3_parser
+    ports: 
+      - 9113:9113
+    volumes:
+      - ./chart3_parser:/app
+    environment:
+      - PORT=9113
+      - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=chart3
+    depends_on:
+      - kafka
+
+  chart3_creator:
+    container_name: chart3_creator
+    build: ./chart3_creator
+    ports: 
+      - 9114:9114
+    volumes:
+      - ./chart2_creator:/app
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_TOPIC: chart_3
+      KAFKA_PRODUCER_TOPIC: chart_to_database
+    depends_on:
+      - kafka
+
 volumes:
   data:
