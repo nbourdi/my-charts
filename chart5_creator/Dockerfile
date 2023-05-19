@@ -14,12 +14,11 @@ RUN apt install python3-matplotlib -y
 RUN apt install python3-numpy -y
 RUN apt install python3-pandas -y
 
-ENV PORT=9114
+ENV PORT=9118
 
-EXPOSE 9114
+EXPOSE 9118
 
 COPY package*.json index.js consumer.py /app/
 RUN npm install colors
-RUN npm install kafkajs
 
 CMD ["node", "./index.js"]

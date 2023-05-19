@@ -9,34 +9,37 @@ router.get('/', async (req, res) => {
     try {
      let x = []
      let y = []
-     let colors = []
-     fs.createReadStream("./chart3_csvs/scatter_chart2.csv")
+
+     fs.createReadStream("./chart5_csvs/stackplot.csv")
          .pipe(parse({ delimiter: "," }))
-         .on("data", function (row) {
-             x.push(row[0]);
-             y.push(row[1]);
-             colors.push(row[2]);
+         .on('data', function (row) {
+          Object.keys(row).forEach((key, index) => {
+            if (index === 0) {
+              x.push(row[key]);
+            } else {
+              if (!y[index - 1]) {
+                y[index - 1] = [];
+              }
+              y[index - 1].push(row[key]);
+            }
+          });
          })
-         .on("end", async function () {
+         .on('end', async function () {
             const data = [];
-            for (let i = 1; i < y.length; i++) {
+            for (let i = 0; i < x.length; i++) {
+              const values = y.map((col) => col[i]);
               data.push({
-                y: y[i],
-                x: x[i],
-                color: colors[i]
+                category: x[i],
+                values: values
               });
             }
+            console.log(data);
             const message = {
               key: 'key',
-              value: JSON.stringify({
-                title1: y[0],
-                title2: x[0],
-                title3: colors[0],
-                data: data
-              })
+              value: JSON.stringify(data)
             };
             await producer.send({
-              topic: 'chart_3',
+              topic: 'chart_5',
               messages: [ message ]
             });
             console.log('api get request was made... message should be produced');

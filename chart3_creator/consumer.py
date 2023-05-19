@@ -26,15 +26,18 @@ for value in arg_x_value[5::3]:
 
 series = [data1, data2, data3]
 
-x = np.array(series[0])
-y = np.array(series[1])
+y = np.array(series[0])
+x = np.array(series[1])
 color = np.array(series[2])
+
+y = [float(x) for x in y] #they're strings, to plot them need integers
+x = [float(x) for x in x]
+color = [int(x) for x in color]
 #x = [0.1, 0.3, 0.2, 0.5, 0.8, 0.6, 0.4, 0.7, 0.9, 0.3]
 #y = [0.5, 0.7, 0.4, 0.9, 0.2, 0.3, 0.6, 0.1, 0.8, 0.4]
 #color = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2]
 #size = [50, 100, 75, 120, 60, 90, 80, 110, 70, 95]
 #size = []
-
 fig, ax = plt.subplots()
 
 scatter = ax.scatter(x, y, c=color) #, s=size
