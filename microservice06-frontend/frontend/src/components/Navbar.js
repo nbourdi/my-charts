@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 
 const Navbar = ({ user }) => {
-  const logout = () => {    
+  const logout = () => {     // TODO: make this fetch/axios
     window.open("http://localhost:3000/logout", "_self");
     setTimeout(() => {
       window.location.href = "http://localhost:3030/"; // Redirect to the home page
     }, 800);  };
-  return (
+    return (
     <div className="navbar">
       <span className="logo">
         <Link className="link" to="/">

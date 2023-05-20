@@ -3,6 +3,8 @@ import "./App.css";
 import CreateBar from "./webpages/create/bar_chart"
 import Home from "./webpages/Home";
 import Login from "./webpages/login";
+import SuccessfulSignUp from "./webpages/signup/Success";
+import ConfirmSignUp from "./webpages/signup/Confirm";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -24,8 +26,7 @@ const App = () => {
           "Access-Control-Allow-Credentials": true,
         },
       })
-        .then((response) => {
-          if (response.status === 200) return response.json();
+        .then((response) => { return response.json();
           throw new Error("Authentication has failed!");
         })
         .then((resObject) => {
@@ -35,7 +36,6 @@ const App = () => {
           console.log(err);
         });
     };
-
     getUser();
   }, [user]); 
   
@@ -48,13 +48,19 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route
             path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
+            element={<Login />}
+          />
+          <Route
+            path="/signup/success"
+            element={<SuccessfulSignUp /> }
+          />
+          <Route
+            path="/signup/confirm" element={ <ConfirmSignUp /> }
           />
           <Route
             path="/create"
-            // NEED TO UNCOMMENT , DID CAUSE WAS REDIRECTING..
-            // element={user ? <CreateBar /> : <Navigate to="/login" />}
             element={<CreateBar />}
+            
           />
         </Routes>
       </div>

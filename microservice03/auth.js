@@ -6,7 +6,7 @@ passport.use(new GoogleStrategy({
     clientID: '100104718200-esp9hr1ti2hudrtekmrsfe83peg6sapc.apps.googleusercontent.com',
     clientSecret: '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',
     callbackURL: 'http://localhost:3000',
-    scope: ["profile"],
+    scope: ['profile', 'email'],
   }, 
   // function(accessToken, refreshToken, profile, done) {
   //   connection.query('SELECT * FROM users WHERE email = ?', [profile.emails[0].value], function(err, results, fields) {
@@ -28,11 +28,12 @@ passport.use(new GoogleStrategy({
   //         return done(null, user);
   //       }
   //     }
+  //   }
   function (accessToken, refreshToken, profile, done) {
     done(null, profile);
   }
   )
-);
+  );
 
 passport.serializeUser((user, done) => {
   done(null, user);
