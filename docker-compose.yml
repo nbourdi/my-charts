@@ -133,6 +133,34 @@ services:
     depends_on:
       - kafka
 
+  chart4_parser:
+    container_name: chart4_parser
+    build: ./chart4_parser
+    ports: 
+      - 9115:9115
+    volumes:
+      - ./chart4_parser:/app
+    environment:
+      - PORT=9115
+      - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=chart4
+    depends_on:
+      - kafka
+
+  chart4_creator:
+    container_name: chart4_creator
+    build: ./chart4_creator
+    ports: 
+      - 9116:9116
+    volumes:
+      - ./chart4_creator:/app
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_TOPIC: chart_4
+      KAFKA_PRODUCER_TOPIC: chart_to_database
+    depends_on:
+      - kafka
+
   chart5_parser:
     container_name: chart5_parser
     build: ./chart5_parser
