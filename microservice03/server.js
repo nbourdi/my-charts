@@ -38,6 +38,23 @@ app.get("/login/success", (req, res) => {
       //   cookies: req.cookies
     });
   }
+    const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+
+  // Prepare the SQL query
+  const query = 'UPDATE users SET lastlogin = ? WHERE email = ?';
+  const values = [formattedDate, req.user.email]; // Include the formatted date and user email as values
+
+  // Execute the query
+  connection.query(query, values, (error, results) => {
+    if (error) {
+      console.error('Error updating last login:', error);
+      // Handle the error appropriately
+    } else {
+      console.log('Last login updated successfully!');
+      // Handle the success appropriately
+    }
+  });  
 });
 
 app.get("/login/failed", (req, res) => {
