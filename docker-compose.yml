@@ -189,5 +189,33 @@ services:
     depends_on:
       - kafka
 
+  chart6_parser:
+    container_name: chart6_parser
+    build: ./chart6_parser
+    ports: 
+      - 9119:9119
+    volumes:
+      - ./chart6_parser:/app
+    environment:
+      - PORT=9119
+      - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=chart6
+    depends_on:
+      - kafka
+
+  chart6_creator:
+    container_name: chart6_creator
+    build: ./chart6_creator
+    ports: 
+      - 9120:9120
+    volumes:
+      - ./chart6_creator:/app
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CONSUMER_TOPIC: chart_6
+      KAFKA_PRODUCER_TOPIC: chart_to_database
+    depends_on:
+      - kafka
+
 volumes:
   data:
