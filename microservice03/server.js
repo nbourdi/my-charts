@@ -37,8 +37,18 @@ app.get("/login/success", (req, res) => {
       user: req.user,
       //   cookies: req.cookies
     });
-  }
-    const currentDate = new Date();
+  }  
+});
+
+app.get("/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "failure",
+  });
+});
+
+app.get('/logout', function(req, res, next) {
+  const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
 
   // Prepare the SQL query
@@ -55,16 +65,6 @@ app.get("/login/success", (req, res) => {
       // Handle the success appropriately
     }
   });  
-});
-
-app.get("/login/failed", (req, res) => {
-  res.status(401).json({
-    success: false,
-    message: "failure",
-  });
-});
-
-app.get('/logout', function(req, res, next) {
   req.logout();
   res.redirect(CLIENT_URL);
 });
