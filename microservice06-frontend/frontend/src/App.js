@@ -3,9 +3,12 @@ import "./App.css";
 import CreateBar from "./webpages/create/bar_chart"
 import Home from "./webpages/Home";
 import Login from "./webpages/login";
+import BarPreview from "./webpages/preview/chart_1";
+import ScatterPreview from "./webpages/preview/chart_3";
+import SimplePreview from "./webpages/preview/chart_2";
 import SuccessfulSignUp from "./webpages/signup/Success";
 import ConfirmSignUp from "./webpages/signup/Confirm";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const App = () => {
@@ -47,20 +50,25 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="/login"
-            element={<Login />}
+            path="/login" element={<Login />}
           />
           <Route
-            path="/signup/success"
-            element={<SuccessfulSignUp /> }
+            path="/signup/success" element={<SuccessfulSignUp /> }
           />
           <Route
             path="/signup/confirm" element={ <ConfirmSignUp /> }
           />
           <Route
-            path="/create"
-            element={<CreateBar />}
-            
+            path="/create" element={<CreateBar />}
+          />
+          <Route
+            path="/preview/chart_1" element={<BarPreview />}
+          />
+          <Route
+            path="/preview/chart_2" element={<SimplePreview />}
+          />
+          <Route
+            path="/preview/chart_3" element={<ScatterPreview />}
           />
         </Routes>
       </div>

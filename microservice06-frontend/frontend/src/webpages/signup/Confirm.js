@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+
 
 function ConfirmSignUp() {
   const create = () => {
     window.open("http://localhost:3000/create", "_self");
     setTimeout(() => {
       window.location.href = "http://localhost:3030/signup/success"; // Redirect to the home page
-    }, 800);  };
+    }, 1500);  };
 
     const cancel = () => {
       window.open("http://localhost:3000/cancel", "_self");
@@ -21,9 +21,14 @@ function ConfirmSignUp() {
     // }
 
   return (
-    <div> <h3><p>Do you want to create an account?</p></h3> 
-    <button onClick={create}> Create Account </button> 
-    <button onClick={cancel}> Cancel </button> </div>
+    <div className='layout'> 
+      <div className='center'> <h2><p>It's the first time you're logging in... </p></h2> </div>
+    <div  className="center">    <p>If you continue, your <b>email will be stored</b>  in our user database to <br></br> be able to store your created charts and purchase chart credits.</p>
+    </div> 
+    <div className='center'>
+      <button onClick={create} className='button'> Continue </button> 
+    <button onClick={cancel} className='button'> No, thanks </button> </div>
+     </div>
   );
 }
 

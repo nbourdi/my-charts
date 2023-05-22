@@ -107,7 +107,7 @@ app.get(
     
       console.log("User logged in:", user_db);
       //res.redirect(SUCCESS_URL);
-      res.status(200).send("User created!")
+      res.status(200);
     } catch (err) {
       console.error("Error creating user:", err);
       res.status(500).send("Error creating user");
