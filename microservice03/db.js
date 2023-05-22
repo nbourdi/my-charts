@@ -22,6 +22,7 @@ connection.connect(function(err) {
 const createTable = `CREATE TABLE IF NOT EXISTS users (
   id INT(11) NOT NULL AUTO_INCREMENT,
   email VARCHAR(255) NOT NULL,
+  lastlogin DATETIME,
   credit INT(11) NOT NULL DEFAULT 9,
   PRIMARY KEY (id)
 )`;
