@@ -7,7 +7,8 @@ const { parse } = require("csv-parse");
 router.post('/', async (req, res) => {
   try {
 
-    const csvData = req.body.my_csv;
+    const csvData = req.files.my_csv.data;
+    
 
     console.log(csvData);
 
@@ -36,6 +37,7 @@ router.post('/', async (req, res) => {
             data: data
           })
         };
+        console.log(message);
         await producer.send({
           topic: 'chart_1',
           messages: [message]
