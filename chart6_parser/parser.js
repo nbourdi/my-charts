@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { producer } = require('./broker');
+const { producer, consumer } = require('./broker');
 const fs = require("fs");
 const { parse } = require("csv-parse");
 var fileupload = require("express-fileupload");

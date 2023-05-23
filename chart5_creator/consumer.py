@@ -32,14 +32,10 @@ ax.stackplot(x, y_all.values(),
              labels=y_all.keys(), alpha=0.8)
 ax.legend(loc='upper left')
 ax.set_xlabel(x_tit)
-plt.savefig('foo.png')
-plt.close()
 
 plt.savefig('foo.png')
-svg_bytes = io.BytesIO()
-canvas = FigureCanvasSVG(fig)
-canvas.print_svg(svg_bytes)
-plt.close()
-
-svg_string = svg_bytes.getvalue().decode()
-#print(svg_string)'''
+svg_io = io.StringIO()
+plt.savefig(svg_io, format='svg')
+svg_string = svg_io.getvalue()
+svg_io.close()
+print(svg_string)
