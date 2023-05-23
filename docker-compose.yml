@@ -21,13 +21,13 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=kafka
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
 
-  charts1:
-    container_name: charts1
-    build: ./microservice01
+  chart1_parser:
+    container_name: chart1_parser
+    build: ./chart1_parser
     ports: 
       - 9103:9103
     volumes:
-      - ./microservice01:/app
+      - ./chart1_parser:/app
     environment:
       - PORT=9103
       - KKAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -35,13 +35,13 @@ services:
     depends_on:
       - kafka
 
-  micro2:
-    container_name: micro2
-    build: ./microservice02
+  chart1_creator:
+    container_name: chart1_creator
+    build: ./chart1_creator
     ports: 
       - 9104:9104
     volumes:
-      - ./microservice02:/app
+      - ./chart1_creator:/app
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       KAFKA_CONSUMER_TOPIC: chart_1
