@@ -20,6 +20,9 @@ async function run() {
     eachMessage: async ({ topic, partition, message }) => {
       const key = message.key.toString();
       const value = JSON.parse(message.value.toString());
+
+      const email = value.email;
+
       const { spawn } = require('child_process');
       const pythonScriptPath = 'consumer.py';
       var pythonArgs = [value.title1, value.title2, value.title3]
@@ -36,9 +39,11 @@ async function run() {
         const message = {
           key: 'key',
           value: JSON.stringify({
+            email: email,
             svg: data
           })
         };
+        console.log(message);
         await producer.connect();
         await producer.send({
           topic: 'chart_to_database',

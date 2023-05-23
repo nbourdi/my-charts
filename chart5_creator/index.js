@@ -19,15 +19,21 @@ async function run() {
       const key = message.key.toString();
       const value = JSON.parse(message.value.toString());
 
+      const data = value.data;
+
+      console.log(data);
+
+      const email = value.email;
+
       const { spawn } = require('child_process');
       const pythonScriptPath = 'consumer.py';
       var pythonArgs = [];
-      pythonArgs.push(value[0].values.length);
-      pythonArgs.push(value[0].category);
-      pythonArgs.push(value[0].values);
-      for (let i = 1; i < value.length; i++) {
-        pythonArgs.push(value[i].category);
-        pythonArgs.push(value[i].values);
+      pythonArgs.push(data[0].values.length);
+      pythonArgs.push(data[0].category);
+      pythonArgs.push(data[0].values);
+      for (let i = 1; i < data.length; i++) {
+        pythonArgs.push(data[i].category);
+        pythonArgs.push(data[i].values);
       }
 
       const pythonProcess = spawn('python3', [pythonScriptPath, pythonArgs]);
@@ -37,9 +43,11 @@ async function run() {
         const message = {
           key: 'key',
           value: JSON.stringify({
+            email: email,
             svg: data
           })
         };
+        console.log(message);
         await producer.connect();
         await producer.send({
           topic: 'chart_to_database',

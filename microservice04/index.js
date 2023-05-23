@@ -34,7 +34,7 @@ async function run() {
             // console.log(`SVG_string: ${value.svg.data}`);
             const svg_string = value.svg.data.toString();
 
-            const user_email = "me@me.com";
+            const user_email = value.email;
 
             const curr_date = Date.now();
 

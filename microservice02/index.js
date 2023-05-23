@@ -27,8 +27,11 @@ async function run() {
      //   console.log(`Data ${i}: ${value.data[i].category} - ${value.data[i].value}`);
      // }
 
+     const email = value.email;
+
       const { spawn } = require('child_process');
       const pythonScriptPath = 'consumer.py';
+      
       var pythonArgs = [value.title1, value.title2]
       for (let i = 0; i < value.data.length; i++) {
         pythonArgs.push(value.data[i].category);
@@ -43,6 +46,7 @@ async function run() {
         const message = {
           key: 'key',
           value: JSON.stringify({
+            email: email,
             svg: data
           })
         };

@@ -31,8 +31,10 @@ async function read_user_from_kafka() {
 
 }
 
-router.get('/', async (req, res) => {
+router.get('/:user_email', async (req, res) => {
     try {
+
+        const email = req.params.user_email;
 
         //create connection to database
         mongoose.connect('mongodb://mongodb_charts:27017/charts', { useNewUrlParser: true });
@@ -44,7 +46,7 @@ router.get('/', async (req, res) => {
         charts_db.once('open', async function () {
             //we are connected
             console.log("Connected and ready to get charts!");
-            const users_charts = await Charts.find({}).then((charts) => {
+            const users_charts = await Charts.find({user_email: email}).then((charts) => {
                 console.log("Got users charts.");
                 res.send(charts);
             });
