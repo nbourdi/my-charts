@@ -1,35 +1,8 @@
-const { consumer } = require("./broker");
 const express = require("express");
 const router = express.Router();
 const { Charts } = require('./chartsModel');
 var mongoose = require('mongoose');
 
-
-async function read_user_from_kafka() {
-
-    var user;
-
-    await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
-            const key = message.key.toString();
-            const value = JSON.parse(message.value.toString());
-
-            console.log(`Received message on topic ${topic}, partition ${partition}:`);
-            console.log(`Key: ${key}`);
-
-            console.log(`User: ${value.email}`);
-            user_email = value.email;
-
-            user = { 'user_email': user_email };
-
-            const users_charts = await charts.find({ user_email: user.user_email }).then(function () {
-                console.log("Got users charts.");
-                res.status(200).json(users_charts);
-            });
-        }
-    });
-
-}
 
 router.get('/', async (req, res) => {
     try {
@@ -51,8 +24,6 @@ router.get('/', async (req, res) => {
                 res.send(charts);
             });
         });
-
-        //read_user_from_kafka().catch(console.error);
 
 
     } catch (error) {
