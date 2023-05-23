@@ -31,10 +31,10 @@ async function read_user_from_kafka() {
 
 }
 
-router.get('/:user_email', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
 
-        const email = req.params.user_email;
+        const email = req.body.email;
 
         //create connection to database
         mongoose.connect('mongodb://mongodb_charts:27017/charts', { useNewUrlParser: true });
