@@ -44,7 +44,14 @@ router.post('/', async (req, res) => {
           messages: [message]
         });
         console.log('api get request was made... message should be produced');
-        res.status(200).json({ status: "success" });
+        await consumer.subscribe({ topic: 'chart_created2', fromBeginning: true });
+
+        const messageHandler = async ({ message }) => {
+          consumer.stop();
+          res.json({ status: 'success', message: message.value.toString() });
+        };
+
+        await consumer.run({ eachMessage: messageHandler });
       })
       .on("error", function (error) {
         res.status(500).json({ status: error.message });

@@ -7,8 +7,8 @@ const kafka = new Kafka({
 
 //await consumer.clearMetadataCache();
 const consumer = kafka.consumer({ groupId: 'chart3cons' });
-
-const producer = kafka.producer();
+const db_producer = kafka.producer();
+const api_producer = kafka.producer();
 
 const fs = require("fs");
 
@@ -44,9 +44,15 @@ async function run() {
           })
         };
         console.log(message);
-        await producer.connect();
-        await producer.send({
+        await db_producer.connect();
+        await db_producer.send({
           topic: 'chart_to_database',
+          messages: [ message ]
+        });
+        
+        await api_producer.connect();
+        await api_producer.send({
+          topic: 'chart_created3',
           messages: [ message ]
         });
       });

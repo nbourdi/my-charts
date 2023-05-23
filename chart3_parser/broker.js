@@ -6,6 +6,8 @@ const kafka = new Kafka({
   });
   
 const producer = kafka.producer();
+const consumer = kafka.consumer({ groupId: 'ch_creat3' });
+
 async function start() {
     try {
       await producer.connect();
@@ -17,4 +19,4 @@ async function start() {
 
 start();
 
-module.exports = { producer };
+module.exports = { producer, consumer };
