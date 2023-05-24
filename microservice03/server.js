@@ -14,7 +14,7 @@ const CONFIRM_URL = "http://localhost:3030/signup/confirm";
 
 
 app.use(
-  cookieSession({name:"session", keys:["openreplay"], maxAge: 24 * 60 * 60 * 100,})
+  cookieSession({ name: "session", keys: ["openreplay"], maxAge: 24 * 60 * 60 * 100, })
 );
 
 app.use(passport.initialize());
@@ -37,8 +37,46 @@ app.get("/login/success", (req, res) => {
       user: req.user,
       //   cookies: req.cookies
     });
-  }  
+  }
 });
+
+app.get("/userinfo", async function (req, res) {
+  if (req.user) {
+    console.log(req.user.emails[0].value);
+
+    connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value], function (err, results) {
+      if (err) {
+        // Handle the error
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'An error occurred' });
+        return;
+      }
+
+      if (results.length > 0) {
+        const user = results[0];
+        const credit = user.credit;
+        const lastLogin = user.lastlogin;
+
+        // Use the retrieved values as needed
+        console.log('Credit:', credit);
+        console.log('Last Login:', lastLogin);
+
+        res.status(200).json({
+          user: {
+            name: req.user.displayName,
+            // lastlogin: lastLogin,
+            credits: credit
+          }
+        });
+      } else {
+        // User not found
+        console.log('User not found');
+        res.status(404).json({ error: 'User not found' });
+      }
+    });
+  }
+});
+
 
 app.get("/login/failed", (req, res) => {
   res.status(401).json({
@@ -47,13 +85,14 @@ app.get("/login/failed", (req, res) => {
   });
 });
 
-app.get('/logout', function(req, res, next) {
+app.get('/logout', (req, res) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+  console.log(req.user);
 
   // Prepare the SQL query
   const query = 'UPDATE users SET lastlogin = ? WHERE email = ?';
-  const values = [formattedDate, req.user.email]; // Include the formatted date and user email as values
+  const values = [formattedDate, req.user.emails[0].value]; // Include the formatted date and user email as values
 
   // Execute the query
   connection.query(query, values, (error, results) => {
@@ -64,10 +103,20 @@ app.get('/logout', function(req, res, next) {
       console.log('Last login updated successfully!');
       // Handle the success appropriately
     }
-  });  
+  });
   req.logout();
   res.redirect(CLIENT_URL);
 });
+// app.get('/logout', function(req, res, next) {
+//   req.logout(function(err) {
+//     if (err) { return next(err); }
+//     // res.redirect('/');
+//   });
+//   req.logout();
+//   res.redirect(CLIENT_URL);
+// });
+
+
 
 app.get("/auth/google", passport.authenticate("google", { scope: ['profile', 'email'] }));
 
@@ -76,8 +125,8 @@ app.get(
   passport.authenticate("google", {
     // successRedirect: CLIENT_URL_CREATE,
     failureRedirect: "/login/failed",
-  }), function(req, res) {
-    connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value], function(err, results, fields) {
+  }), function (req, res) {
+    connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value], function (err, results, fields) {
       if (err) {
         return done(err);
       }
@@ -89,54 +138,42 @@ app.get(
       }
     });
   });
-  app.get('/create', async function(req, res) {
-    try {
-      if (!req.user) {
-        res.redirect('/auth/google');
-        return;
-      }
-      const results1 = await connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value]);
-      if (results1.length > 0) {
-        console.log("User already exists in mycharts db:", req.user.emails[0].value);
-        return;
-      }
-      
-      console.log("Create account called");
-      const user_db = {
-        email: req.user.emails[0].value,
-        credit: 9
-      };
-      const result = await connection.query('INSERT INTO users SET ?', user_db);
-      user_db.id = result.insertId;
-      user_db.id = result.insertId;
-      
-    
-      // await new Promise((resolve, reject) => {
-      //   req.login(user_db, function(err) {
-      //     if (err) {
-      //       console.error("Error logging in user:", err);
-      //       reject(err);
-      //     } else {
-      //       resolve();
-      //     }
-      //   });
-      // });
-    
-      console.log("User logged in:", user_db);
-      //res.redirect(SUCCESS_URL);
-      res.status(200);
-    } catch (err) {
-      console.error("Error creating user:", err);
-      res.status(500).send("Error creating user");
+app.get('/create', async function (req, res) {
+  try {
+    if (!req.user) {
+      res.redirect('/auth/google');
+      return;
     }
-  });
-  
-  
-  app.get('/cancel', function(req, res) {
-    connection.query('DELETE FROM users WHERE email = ?', [req.user.emails[0].value]);
-    res.redirect('/logout');
-  });
+    const results1 = await connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value]);
+    if (results1.length > 0) {
+      console.log("User already exists in mycharts db:", req.user.emails[0].value);
+      return;
+    }
 
-app.listen(port, function() {
+    console.log("Create account called");
+    const user_db = {
+      email: req.user.emails[0].value,
+      credit: 9
+    };
+    const result = await connection.query('INSERT INTO users SET ?', user_db);
+    user_db.id = result.insertId;
+    user_db.id = result.insertId;
+
+    console.log("User logged in:", user_db);
+    //res.redirect(SUCCESS_URL);
+    res.status(200);
+  } catch (err) {
+    console.error("Error creating user:", err);
+    res.status(500).send("Error creating user");
+  }
+});
+
+
+app.get('/cancel', function (req, res) {
+  connection.query('DELETE FROM users WHERE email = ?', [req.user.emails[0].value]);
+  res.redirect('/logout');
+});
+
+app.listen(port, function () {
   console.log('Server listening on port ' + port);
 });

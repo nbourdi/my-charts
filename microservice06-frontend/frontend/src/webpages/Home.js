@@ -21,7 +21,7 @@ const Home = () => {
           scrollSnapType: 'x mandatory',
         }}
       >
-        {Array.from({ length: 4 }).map((_, i) => ( //TODO: all 6..
+        {Array.from({ length:  6}).map((_, i) => ( //TODO: all 6..
           <li
             style={{
               backgroundColor: 'white',
@@ -39,9 +39,9 @@ const Home = () => {
             }}
             key={i}
           >
-            <a href={`/preview/chart_${4 - i}`}>
+            <a href={`/create/chart_${6 - i}`}>
            <img
-              src={`/sample_charts/sample_chart_${4 - i}.png`} // anapoda gt prettier
+              src={`/sample_charts/sample_chart_${5 - i}.png`} // anapoda gt prettier
 
               style={{
                 maxWidth: '100%',

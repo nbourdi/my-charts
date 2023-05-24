@@ -1,7 +1,7 @@
 import React from "react";
 import BarChartCSV from "./bar_chart.csv"
 
-const CreateBar = () => {
+const CreateStack = () => {
   // drag state
   const [dragActive, setDragActive] = React.useState(false);
   const [imageAppended, setImageAppended] = React.useState(false);
@@ -42,7 +42,7 @@ const CreateBar = () => {
     formData.append("my_csv", files[0]);
   
     try {
-      const response = await fetch("http://localhost:9103/my_charts1/chart1_parser", {
+      const response = await fetch("http://localhost:9117/my_charts5/chart5_parser", {
         method: "POST",
         body: formData,
       });
@@ -95,7 +95,7 @@ const CreateBar = () => {
   return (
     <div className="layout">
     
-    <div> <h2> Create your bar chart! </h2> </div>
+    <div> <h2> Create your stack chart! </h2> </div>
     <div>
     <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
       <input ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={handleChange} />
@@ -135,4 +135,4 @@ const CreateBar = () => {
   );
 };
 
-export default CreateBar; 
+export default CreateStack; 
