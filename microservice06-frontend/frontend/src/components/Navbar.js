@@ -32,7 +32,11 @@ const Navbar = ({ user }) => {
         <Link className="link" to="/">
           MyCharts
         </Link>
+        <Link className="link" to="/about">
+          About
+        </Link>
       </span>
+      
       {user ? (
         <ul className="list">
           <li className="listItem">
@@ -42,7 +46,7 @@ const Navbar = ({ user }) => {
               className="avatar"
             />
           </li>
-          <li className="link" to="/user/charts">{user.displayName}</li>
+          <Link className="link" to="/user/charts">{user.displayName}</Link>
           <li className="link" onClick={logout}>
             Logout
           </li>

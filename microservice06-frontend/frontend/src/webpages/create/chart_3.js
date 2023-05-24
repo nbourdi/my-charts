@@ -1,5 +1,5 @@
 import React from "react";
-import BarChartCSV from "./bar_chart.csv"
+import BarChartCSV from "./scatter_chart2.csv"
 
 const CreateScatter = () => {
   // drag state

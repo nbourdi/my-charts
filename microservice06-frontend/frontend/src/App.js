@@ -3,13 +3,14 @@ import "./App.css";
 import CreateBar from "./webpages/create/bar_chart"
 import Home from "./webpages/Home";
 import Login from "./webpages/login";
+import About from "./webpages/About";
 // import BarPreview from "./webpages/preview/chart_1";
 // import ScatterPreview from "./webpages/preview/chart_3";
 // import SimplePreview from "./webpages/preview/chart_2";
 
 import UserCharts from "./webpages/UserCharts";
 import Credits from "./webpages/Credits";
-import SuccessfulSignUp from "./webpages/signup/Success";
+import UserInfo from "./webpages/UserInfo";
 import ConfirmSignUp from "./webpages/signup/Confirm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -62,7 +63,7 @@ const App = () => {
             path="/login" element={<Login />}
           />
           <Route
-            path="/signup/success" element={<SuccessfulSignUp /> }
+            path="/user/info" element={<UserInfo /> }
           />
           <Route
             path="/signup/confirm" element={ <ConfirmSignUp /> }
@@ -85,22 +86,14 @@ const App = () => {
           <Route
             path="/create/chart_6" element={<CreateStem />}
           />
-
-          
-          {/* <Route
-            path="/preview/chart_1" element={<BarPreview />}
-          />
-          <Route
-            path="/preview/chart_2" element={<SimplePreview />}
-          />
-          <Route
-            path="/preview/chart_3" element={<ScatterPreview />}
-          /> */}
           <Route
             path="/purchase" element={<Credits />}
           />
           <Route
             path="/user/charts" element={<UserCharts />}
+          />
+          <Route
+            path="/About" element={<About />}
           />
         </Routes>
       </div>

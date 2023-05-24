@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function SuccessfulSignUp() {
+function UserInfo() {
   const [user, setUser] = useState();
   useEffect(() => {
     const getUser = () => {
@@ -78,4 +78,4 @@ function SuccessfulSignUp() {
 }
 
 
-export default SuccessfulSignUp;
+export default UserInfo;

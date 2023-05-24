@@ -1,5 +1,5 @@
 import React from "react";
-import BarChartCSV from "./bar_chart.csv"
+import SimpleChartCSV from "./simple_chart.csv"
 
 const CreateSimple = () => {
   // drag state
@@ -110,7 +110,7 @@ const CreateSimple = () => {
     <div>
     <h3>Model your CSV on this example! </h3>
     <a
-        href={BarChartCSV}
+        href={SimpleChartCSV}
         download="Example-Simple-Chart.csv"
         target="_blank"
         rel="noreferrer"
