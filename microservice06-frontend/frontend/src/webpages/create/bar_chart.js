@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import BarChartCSV from "./bar_chart.csv"
-import TokenContext from "../../UserContext";
+import UserContext from "../../UserContext";
 
 const CreateBar = () => {
   // drag state
@@ -8,7 +8,16 @@ const CreateBar = () => {
   const [imageAppended, setImageAppended] = React.useState(false);
   // ref
   const inputRef = React.useRef(null);
-  const { token } = useContext(TokenContext);
+  const { user } = useContext(UserContext);
+
+  if (user == null) {
+    return (
+      <div className="layout">
+        <h1>Looks like you're not authorized to view this page. </h1><br></br>
+         Please Sign In to use our service...
+      </div>
+    )
+  }
 
   
   // handle drag events

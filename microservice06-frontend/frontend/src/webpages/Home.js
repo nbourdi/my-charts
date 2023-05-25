@@ -32,9 +32,6 @@ const Home = () => {
               alignItems: 'center',
               marginBottom: '50px',
               marginRight: '25px',
-              borderWidth: '1px',
-              borderTopColor: 'grey',
-              borderStyle: 'solid'
             }}
             key={i}
           >

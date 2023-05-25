@@ -135,7 +135,6 @@ app.get("/login/failed", (req, res) => {
 app.get('/logout', (req, res) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
-  console.log(req.user);
 
   // Prepare the SQL query
   const query = 'UPDATE users SET lastlogin = ? WHERE email = ?';
