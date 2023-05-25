@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useContext } from "react";
+import UserContext from "../UserContext";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
+
+  const { user, updateUser } = useContext(UserContext);
+  
   const logout = async () => {     // TODO: make this fetch/axios
+    updateUser(null); //destroy user session information
     window.open("http://localhost:3000/logout", "_self");
     setTimeout(() => {
       window.location.href = "http://localhost:3030/"; // Redirect to the home page
     }, 800);
+    
+
     // axios.get("http://localhost:3000/logout")
     // .finally(window.location.href = "http://localhost:3030/")
 
@@ -32,7 +39,7 @@ const Navbar = ({ user }) => {
         <Link className="link" to="/">
           MyCharts
         </Link>
-        <Link className="link" to="/about">
+        <Link className="about" to="/about">
           About
         </Link>
       </span>
@@ -41,15 +48,15 @@ const Navbar = ({ user }) => {
         <ul className="list">
           <li className="listItem">
             <img
-              src={user.photos[0].value}
+              src={user.googleaccount.photos[0].value}
               alt=""
               className="avatar"
             />
           </li>
-          <Link className="link" to="/user/charts">{user.displayName}</Link>
-          <li className="link" onClick={logout}>
+          <Link className="about" to="/user/charts">{user.googleaccount.displayName}</Link>
+          <Link className="link" onClick={logout}>
             Logout
-          </li>
+          </Link>
         </ul>
       ) : (
         <Link className="link" to="login">

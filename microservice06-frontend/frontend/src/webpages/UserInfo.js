@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../UserContext.js'
 
 function UserInfo() {
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
+  const { user, updateUser } = useContext(UserContext);
   useEffect(() => {
-    const getUser = () => {
-      if (user) {
-        return; // Skip the fetch if the user is already set or signed out
-      }
+
+    // console.log('Token:', token);
+    const getUserInfo = () => {
+      // if (user.user) {
+      //   return; // Skip the fetch if the user is already set or signed out
+      // }
       console.log("fetch");
       fetch("http://localhost:3000/userinfo", {
         method: "GET",
@@ -22,15 +25,16 @@ function UserInfo() {
           return response.json();
         })
         .then((resObject) => {
-          console.log(resObject.user);
-          setUser(resObject.user);
+          // console.log(resObject.user);
+          updateUser(resObject.user);
+          //setUser(resObject.user);
         })
         .catch((err) => {
           console.log(err);
         });
     };
-    getUser();
-  }, [user]);
+    getUserInfo();
+  }, []);
 
   const credits = () => {
      window.location.href = "http://localhost:3030/purchase"
@@ -45,7 +49,7 @@ function UserInfo() {
   return (
     <div className='layout'>
       {user ? (
-        <div><b>Welcome back</b>, {user.name}! <br></br> Here's your account info.
+        <div><b>Welcome back</b>, {user.googleaccount.displayName}! <br></br> Here's your account info.
           <div className='center'>
             <table className='usertable'>
 

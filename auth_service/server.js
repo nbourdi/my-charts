@@ -1,20 +1,24 @@
 const express = require('express');
 const cookieSession = require("cookie-session");
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const passport = require('./auth');
 const connection = require('./db');
 const cors = require("cors");
+const session = require('express-session');
 const app = express();
 const port = 3000;
 
 const CLIENT_URL = "http://localhost:3030";
 const SUCCESS_URL = "http://localhost:3030/user/info";
 const CONFIRM_URL = "http://localhost:3030/signup/confirm";
+const JWT_SECRET = 'jwt-super-secret-key'
 
+app.use(session({
+  secret: 'super-secret-session-secret', // Replace with your own session secret
+  resave: false,
+  saveUninitialized: false,
+}));
 
-app.use(
-  cookieSession({ name: "session", keys: ["openreplay"], maxAge: 24 * 60 * 60 * 100, })
-);
 
 app.use(passport.initialize());
 //needed for the user to stay connected
@@ -28,16 +32,59 @@ app.use(
   })
 );
 
+
+app.get("/auth/google", passport.authenticate("google", { scope: ['profile', 'email'] }));
+
+// this is the callback uri
+app.get(
+  "/",
+  passport.authenticate("google", {
+    failureRedirect: "/login/failed",
+  }), function (req, res) {
+
+    // signing with the jwt token
+    const token = jwt.sign(
+      {
+        email: req.user.emails[0].value,
+      },
+      JWT_SECRET,
+     
+    );
+    
+    connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value], function (err, results, fields) {
+      if (err) {
+        return done(err);
+      }
+      if (results.length === 0) {
+        req.session.token = token;
+        const redirectUrl = CONFIRM_URL;
+        return res.redirect(redirectUrl)
+      } else {
+        const redirectUrl = SUCCESS_URL;
+        req.session.token = token;
+        // req.cookieSession.url = redirectUrl;
+        return res.redirect(redirectUrl)
+        // res.send({token: token, redirectUrl: redirectUrl});
+        
+        //res.redirect(redirectUrl);
+      }
+      
+      
+    });
+  });
+
+
 app.get("/login/success", (req, res) => {
   if (req.user) {
     res.status(200).json({
       success: true,
       message: "successfull",
       user: req.user,
-      //   cookies: req.cookies
+      token: req.session.token,
     });
   }
 });
+
 
 app.get("/userinfo", async function (req, res) {
   if (req.user) {
@@ -62,9 +109,10 @@ app.get("/userinfo", async function (req, res) {
 
         res.status(200).json({
           user: {
-            name: req.user.displayName,
-            // lastlogin: lastLogin,
-            credits: credit
+            lastlogin: lastLogin,
+            credits: credit,
+            googleaccount: req.user,
+            token: req.session.token,
           }
         });
       } else {
@@ -106,37 +154,8 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.redirect(CLIENT_URL);
 });
-// app.get('/logout', function(req, res, next) {
-//   req.logout(function(err) {
-//     if (err) { return next(err); }
-//     // res.redirect('/');
-//   });
-//   req.logout();
-//   res.redirect(CLIENT_URL);
-// });
 
 
-
-app.get("/auth/google", passport.authenticate("google", { scope: ['profile', 'email'] }));
-
-app.get(
-  "/",
-  passport.authenticate("google", {
-    // successRedirect: CLIENT_URL_CREATE,
-    failureRedirect: "/login/failed",
-  }), function (req, res) {
-    connection.query('SELECT * FROM users WHERE email = ?', [req.user.emails[0].value], function (err, results, fields) {
-      if (err) {
-        return done(err);
-      }
-      if (results.length === 0) {
-        console.log("should be redirecting to confirm_url on client")
-        res.redirect(CONFIRM_URL); // TODO
-      } else {
-        res.redirect(SUCCESS_URL); // TODO
-      }
-    });
-  });
 app.get('/create', async function (req, res) {
   try {
     if (!req.user) {
