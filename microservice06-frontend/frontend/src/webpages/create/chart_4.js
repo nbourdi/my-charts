@@ -1,5 +1,7 @@
-import React from "react";
 import BarChartCSV from "./bar_polar.csv"
+import React, {useContext} from "react";
+import UserContext from "../../UserContext";
+
 
 const CreatePolar = () => {
   // drag state
@@ -7,7 +9,16 @@ const CreatePolar = () => {
   const [imageAppended, setImageAppended] = React.useState(false);
   // ref
   const inputRef = React.useRef(null);
-  
+  const { user } = useContext(UserContext);
+
+  if (user == null) {
+    return (
+      <div className="layout">
+        <h1>Looks like you're not authorized to view this page. </h1><br></br>
+         Please Sign In to use our service...
+      </div>
+    )
+  }
   // handle drag events
   const handleDrag = function(e) {
     e.preventDefault();

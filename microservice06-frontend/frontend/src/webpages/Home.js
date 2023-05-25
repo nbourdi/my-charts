@@ -6,13 +6,12 @@ const Home = () => {
   return (
     <div className='layout'>
         <div><h1>Welcome to MyCharts!</h1></div>
-    <div style={{ display: 'flex'}}>
-        
-      <div className='center'>
-        <h3> Select a chart type to see how each one works <br></br>
-                ... or sign with your Google account to start creating your own.</h3> 
-      </div> 
-      
+        <div >
+          Select a chart type to see how each one works 
+                ... or <b>sign with your Google account</b> to start creating your own. 
+      </div>
+
+    <div style={{paddingTop: '3rem'}}>
       <ul
         ref={scrollRef}
         style={{
@@ -25,17 +24,14 @@ const Home = () => {
           <li
             style={{
               backgroundColor: 'white',
-              width: '350px',
-              height: '300px',
+              width: '330px',
+              height: '250px',
               flexShrink: 0,
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'left',
               alignItems: 'center',
               marginBottom: '50px',
-              marginLeft: '20px',
-              borderWidth: '1px',
-              borderTopColor: 'grey',
-              borderStyle: 'solid'
+              marginRight: '25px',
             }}
             key={i}
           >

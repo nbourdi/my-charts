@@ -8,27 +8,7 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000',
     scope: ['profile', 'email'],
   }, 
-  // function(accessToken, refreshToken, profile, done) {
-  //   connection.query('SELECT * FROM users WHERE email = ?', [profile.emails[0].value], function(err, results, fields) {
-  //     if (err) {
-  //       return done(err);
-  //     }
-  //     if (results.length === 0) {
-  //       const user = {
-  //         email: profile.emails[0].value,
-  //         createAccount: true
-  //       };
-  //       return done(null, user);
-  //     } else {
-  //       const user = results[0];
-  //       if (user.credit) {
-  //         return done(null, user);
-  //       } else {
-  //         user.createAccount = true;
-  //         return done(null, user);
-  //       }
-  //     }
-  //   }
+
   function (accessToken, refreshToken, profile, done) {
     done(null, profile);
   }

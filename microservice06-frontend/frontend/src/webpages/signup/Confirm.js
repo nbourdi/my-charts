@@ -5,13 +5,13 @@ function ConfirmSignUp() {
   const create = () => {
     window.open("http://localhost:3000/create", "_self");
     setTimeout(() => {
-      window.location.href = "http://localhost:3030/signup/success"; // Redirect to the home page
+      window.location.href = "http://localhost:3030/user/info"; // Redirect to the home page
     }, 1500);  };
 
     const cancel = () => {
       window.open("http://localhost:3000/cancel", "_self");
       setTimeout(() => {
-        window.location.href = "http://localhost:3030/"; // Redirect to the home page
+        window.location.href = "http://localhost:3030/user/info"; // Redirect to the welcome/userinfo 
       }, 800);  };
 
     // const create = () => {

@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import BarChartCSV from "./scatter_chart2.csv"
+import UserContext from "../../UserContext";
 
 const CreateScatter = () => {
   // drag state
@@ -7,7 +8,16 @@ const CreateScatter = () => {
   const [imageAppended, setImageAppended] = React.useState(false);
   // ref
   const inputRef = React.useRef(null);
-  
+  const { user } = useContext(UserContext);
+
+  if (user == null) {
+    return (
+      <div className="layout">
+        <h1>Looks like you're not authorized to view this page. </h1><br></br>
+         Please Sign In to use our service...
+      </div>
+    )
+  }
   // handle drag events
   const handleDrag = function(e) {
     e.preventDefault();

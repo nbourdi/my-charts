@@ -1,4 +1,5 @@
 import Google from "../img/google.png";
+import React, { useContext } from "react";
 
 const Login = () => {
   const google = () => {
