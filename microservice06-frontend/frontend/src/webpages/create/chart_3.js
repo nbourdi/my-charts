@@ -148,6 +148,7 @@ const CreateScatter = () => {
   
   return (
     <div className="layout">
+    <div> <h2> Create your scatter plot! </h2> </div>
     <div className="title-box">
       <input
         type="text"
@@ -157,7 +158,6 @@ const CreateScatter = () => {
         placeholder="Enter title"
       />
     </div>
-    <div> <h2> Create your scatter plot! </h2> </div>
     <div>
     <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
       <input ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={handleChange} />

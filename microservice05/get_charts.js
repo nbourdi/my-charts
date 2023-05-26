@@ -21,6 +21,7 @@ router.get('/:email', async (req, res) => {
             console.log("Connected and ready to get charts!");
             const users_charts = await Charts.find({user_email: email}).then((charts) => {
                 console.log("Got users charts.");
+                charts_db.close();
                 res.send(charts);
             });
         });
