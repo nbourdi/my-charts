@@ -1,4 +1,3 @@
-const { consumer } = require("./broker");
 const express = require("express");
 const router = express.Router();
 const { Charts } = require('./chartsModel');
@@ -29,7 +28,8 @@ router.post('/', async (req, res) => {
             console.log("Connected and ready to add chart!");
             Charts.collection.insertOne(chart).then(function () {
                 console.log("Chart inserted.");
-                res.send(chart)
+                charts_db.close();              
+                res.send(chart);
             });
         });
 
