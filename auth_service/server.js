@@ -132,6 +132,52 @@ app.get("/login/failed", (req, res) => {
   });
 });
 
+app.get('/redeem', (req, res) => {
+  const query = 'SELECT credit FROM users WHERE email = ?';
+  const values = [req.user.emails[0].value]; 
+
+  connection.query(query, values, (error, results) => {
+      if (error) {
+        console.error('Error updating credit:', error);
+        res.status(400).json({message: "error.."});
+        // Handle the error appropriately
+      } else {
+        if (results[0].credit === 0) {
+            res.status(402).json({message: "not enough credits..."});
+        }
+        // Handle the success appropriately
+      }// Handle the success appropriately
+  });
+  const query2 = 'UPDATE users SET credit = credit -1 WHERE email = ?';
+  connection.query(query2, values, (error, results) => {
+      if (error) {
+        console.error('Error updating credit:', error);
+        // Handle the error appropriately
+      } else {
+        console.log('Credits updated successfully!');
+        // Handle the success appropriately
+      }// Handle the success appropriately
+  });
+  res.status(200).json({message: "redeem successful!"});
+
+})
+app.get('/purchase/:amount', (req, res) => {
+  const amount  = req.params.amount;
+  const query = 'UPDATE users SET credit = credit + ? WHERE email = ?';
+  const values = [amount, req.user.emails[0].value]; 
+
+  connection.query(query, values, (error, results) => {
+      if (error) {
+        console.error('Error updating credit:', error);
+        res.status(400).json({message: "error.."});
+        // Handle the error appropriately
+      } else {
+        res.status(200).json({message: "Purchase successful!"});
+        // Handle the success appropriately
+      }// Handle the success appropriately
+  });
+
+})
 app.get('/logout', (req, res) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
