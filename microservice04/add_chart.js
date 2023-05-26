@@ -5,7 +5,7 @@ const { Charts } = require('./chartsModel');
 var mongoose = require('mongoose');
 
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
 
         const email = req.body.email;
@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
             console.log("Connected and ready to add chart!");
             Charts.collection.insertOne(chart).then(function () {
                 console.log("Chart inserted.");
+                res.send(chart)
             });
         });
 

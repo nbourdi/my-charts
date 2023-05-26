@@ -4,10 +4,10 @@ const { Charts } = require('./chartsModel');
 var mongoose = require('mongoose');
 
 
-router.get('/', async (req, res) => {
+router.get('/:email', async (req, res) => {
     try {
 
-        const email = req.body.email;
+        const email = req.params.email;
 
         //create connection to database
         mongoose.connect('mongodb://mongodb_charts:27017/charts', { useNewUrlParser: true });

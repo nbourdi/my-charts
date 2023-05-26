@@ -1,8 +1,11 @@
 const express = require("express");
 app = express();
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const router = express.Router();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const baseurl = '/chart_to_database';
 
@@ -20,7 +23,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 
-const get_charts = require('./add_chart');
+const add_chart = require('./add_chart');
 
 app.use(baseurl+'/add_chart', add_chart);
 
