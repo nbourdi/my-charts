@@ -69,41 +69,48 @@ const CreateBar = () => {
         const jsonResponse = await response.json();
         const { status, message } = jsonResponse;
 
-        if (status === "success") {
-          // File uploaded successfully
-          console.log("File uploaded successfully");
+        fetch(`http://localhost:3000/redeem`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (res.ok) {
+              // File uploaded successfully
+              console.log("File uploaded successfully");
 
-          // Extract SVG string from the message attribute
-          const svgBuffer = JSON.parse(message).svg.data;
-          const uint8Array = new Uint8Array(svgBuffer);
-          const decoder = new TextDecoder("utf-8");
-          const svgString = decoder.decode(uint8Array);
-          svg = svgString
-          console.log(svgString);
-          // Render the SVG as an image
-          const image = new Image();
-          image.src =
-            "data:image/svg+xml;charset=utf-8," +
-            encodeURIComponent(svgString);
+              // Extract SVG string from the message attribute
+              const svgBuffer = JSON.parse(message).svg.data;
+              const uint8Array = new Uint8Array(svgBuffer);
+              const decoder = new TextDecoder("utf-8");
+              const svgString = decoder.decode(uint8Array);
+              console.log(svgString);
+              // Render the SVG as an image
+              const image = new Image();
+              image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString);
 
-          // Append the image to the DOM
-          const container = document.getElementById("image-container");
-          container.appendChild(image);
-          setImageAppended(true);
-        } else {
-          // Handle error response
-          console.error("File upload failed:", message);
-          // Handle error scenario, e.g., show an error message
-        }
+              // Append the image to the DOM
+              const container = document.getElementById("image-container");
+              container.appendChild(image);
+              setImageAppended(true);
+            }
+            else {
+              const text = new Text("You don't have enough credits...")
+              const container = document.getElementById("image-container");
+              container.appendChild(text);
+            }
+          }
+          )
       } else {
-        // Handle error response
+        window.alert("Cannot prepare your chart!\nYour file contains errors...");
+
         console.error("File upload failed");
-        // Handle error scenario, e.g., show an error message
       }
     } catch (error) {
-      // Handle network error
       console.error("Network error:", error);
-      // Handle error scenario, e.g., show an error message
     }
   };
 
@@ -124,7 +131,7 @@ const CreateBar = () => {
       const data = {
         title: title,
         type: "Bar",
-        email:  user.googleaccount.emails[0].value,
+        email: user.googleaccount.emails[0].value,
         svg: svg
       };
       const response = await fetch(
@@ -216,7 +223,7 @@ const CreateBar = () => {
       </div>
 
       <div>
-        <div id="image-container" style={{ border: "2px dashed grey" }}></div>
+        <div id="image-container"></div>
         {imageAppended && (
           <button className="button" onClick={handleSaveChart}>
             Save Chart
