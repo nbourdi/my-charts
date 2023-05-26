@@ -37,12 +37,10 @@ for value in dataset['values'].unique():
     for color in dataset['char'].unique():
         counts = dataset[(dataset['values'] == value) & (dataset['char'] == color)]['char'].count()
         arr.append(counts)
-    print(arr)
     data[value] = np.array(arr)
 
-print(data)
 chars = np.array(dataset['char'].unique())
-print(chars)
+
 width = (1.8 / chars.size)
 
 fig, ax = plt.subplots()
@@ -58,10 +56,8 @@ ax.legend()
 
 #plt.show()
 plt.savefig('foo.png')
-svg_bytes = io.BytesIO()
-canvas = FigureCanvasSVG(fig)
-canvas.print_svg(svg_bytes)
-plt.close()
-
-svg_string = svg_bytes.getvalue().decode()
+svg_io = io.StringIO()
+plt.savefig(svg_io, format='svg')
+svg_string = svg_io.getvalue()
+svg_io.close()
 print(svg_string)
