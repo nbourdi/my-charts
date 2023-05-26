@@ -9,11 +9,13 @@ router.get('/', async (req, res) => {
     try {
 
         const email = req.body.email;
-        const svg = req.body.email;
+        const svg = req.body.svg;
+        const type = req.body.type;
+        const title = req.body.title;
 
         const curr_date = Date.now();
 
-        const chart = { 'user_email': email, 'date': curr_date, 'svg_string': svg };
+        const chart = { 'user_email': email, 'type': type, 'chart_title': title, 'date': curr_date, 'svg_string': svg };
 
         //create connection to database
         mongoose.connect('mongodb://mongodb_charts:27017/charts', { useNewUrlParser: true });
