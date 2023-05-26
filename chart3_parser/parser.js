@@ -18,6 +18,9 @@ router.post('/', async (req, res) => {
 
     parse(csvData, { delimiter: "," })
       .on("data", function (row) {
+        if (row.length !== 3) {
+          return res.sendStatus(400);
+        }
         x.push(row[0]);
         y.push(row[1]);
         colors.push(row[2]);
