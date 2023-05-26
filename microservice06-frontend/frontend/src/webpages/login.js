@@ -8,8 +8,6 @@ const Login = () => {
 
   return (
     <div className="login">
-      <div className="wrapper">
-        <div className="left">
           <h3>
             <p> Sign in to start creating your charts! </p>
             </h3>
@@ -19,8 +17,7 @@ const Login = () => {
             Google Sign In
           </div>
         </div>
-      </div>
-    </div>
+      
   );
 };
 
