@@ -19,5 +19,6 @@ ENV PORT=9104
 EXPOSE 9104
 
 COPY package*.json index.js consumer.py /app/
-
+RUN npm install
+RUN npm install kafkajs
 CMD ["node", "./index.js"]

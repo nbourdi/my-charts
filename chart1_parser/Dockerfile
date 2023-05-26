@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package*.json index.js /app/
 
+RUN npm install kafkajs
+RUN npm install express
 RUN npm install
 RUN npm i -g nodemon
 

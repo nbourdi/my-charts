@@ -20,5 +20,6 @@ EXPOSE 9118
 
 COPY package*.json index.js consumer.py /app/
 RUN npm install colors
+RUN npm install
 
 CMD ["node", "./index.js"]

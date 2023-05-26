@@ -21,5 +21,6 @@ EXPOSE 9114
 COPY package*.json index.js consumer.py /app/
 RUN npm install colors
 RUN npm install kafkajs
+RUN npm install
 
 CMD ["node", "./index.js"]

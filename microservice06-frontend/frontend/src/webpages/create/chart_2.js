@@ -2,10 +2,13 @@ import React, {useContext} from "react";
 import SimpleChartCSV from "./simple_chart.csv"
 import UserContext from "../../UserContext";
 
+let svg;
 const CreateSimple = () => {
   // drag state
   const [dragActive, setDragActive] = React.useState(false);
   const [imageAppended, setImageAppended] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+
   // ref
   const inputRef = React.useRef(null);
   const { user } = useContext(UserContext);
@@ -102,10 +105,60 @@ const CreateSimple = () => {
     inputRef.current.click();
   };
   
+// handles title input change
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+// handles saving the chart
+  const handleSaveChart = async () => {
+    try {
+      //console.log("JOINED");
+      const data = {
+        title: title,
+        type: "Simple",
+        email:  user.googleaccount.emails[0].value,
+        svg: svg
+      };
+      const response = await fetch(
+        "http://localhost:9106/chart_to_database/add_chart",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        // Chart saved successfully
+        console.log("Chart saved successfully");
+      } else {
+        // Handle error response
+        console.error("Failed to save the chart");
+        // Handle error scenario, e.g., show an error message
+      }
+    } catch (error) {
+      // Handle network error
+      console.error("Network error:", error);
+      // Handle error scenario, e.g., show an error message
+    }
+  };
+
   return (
     <div className="layout">
     
     <div> <h2> Create your Simple plot! </h2> </div>
+    <div className="title-box">
+        <input
+          type="text"
+          className="title-input"
+          value={title}
+          onChange={handleTitleChange}
+          placeholder="Enter title"
+        />
+      </div>
     <div>
     <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
       <input ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={handleChange} />
@@ -129,18 +182,14 @@ const CreateSimple = () => {
       </a>
       </div>
     </div>
-
-    <div> 
-    
-
-      <div id="image-container" style={{ border: "2px dashed grey" }}>
+    <div>
+        <div id="image-container" style={{ border: "2px dashed grey" }}></div>
+        {imageAppended && (
+          <button className="button" onClick={handleSaveChart}>
+            Save Chart
+          </button>
+        )}
       </div>
-      {imageAppended && (
-                <button className="button">Save</button>
-              )}
-      </div>
-      
-      
     </div>
   );
 };
