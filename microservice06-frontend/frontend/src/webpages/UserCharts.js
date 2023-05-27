@@ -25,7 +25,7 @@ function callEndpoint(url, svg, title, type) {
         // Create a temporary anchor element
         const anchor = document.createElement('a');
         anchor.href = url;
-        anchor.download = filename + "." + extension;
+        anchor.download = filename + "_" + extension;
 
         // Programmatically click the anchor to trigger the download
         anchor.click();
