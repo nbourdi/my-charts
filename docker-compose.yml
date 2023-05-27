@@ -217,5 +217,13 @@ services:
     depends_on:
       - kafka
 
+  downloader:
+    container_name: downloader
+    build: ./downloader
+    ports:
+      - 9130:9130
+    volumes:
+      - ./downloader:/app
+      
 volumes:
   data:

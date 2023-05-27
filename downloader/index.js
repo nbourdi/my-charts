@@ -10,10 +10,8 @@ app.use(bodyParser.json());
 
 const baseurl = '/download';
 
-PORT = 9130;
-
-app.listen(PORT, () => {				
-	console.log(`Downloader listening at: http://localhost:${PORT}${baseurl}`);
+app.listen(process.env.PORT, () => {				
+	console.log(`Downloader listening at: http://localhost:9130${baseurl}`);
 });
 
 app.get(baseurl, function (req, res) {											
