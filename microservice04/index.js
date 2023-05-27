@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const baseurl = '/chart_to_database';
 
 app.listen(process.env.PORT, () => {				
-	console.log(`Get charts from database listening at: http://localhost:9106${baseurl}`);
+	console.log(`Add chart to database listening at: http://localhost:9106${baseurl}`);
 });
 
 app.get(baseurl, function (req,res) {											
