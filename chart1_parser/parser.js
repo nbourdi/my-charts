@@ -6,25 +6,27 @@ const { parse } = require("csv-parse");
 
 router.post('/', async (req, res) => {
   try {
-
     const csvData = req.files.my_csv.data;
     const email = req.body.email;
 
     console.log(csvData);
 
-    let categories = []
-    let values = []
-
+    let categories = [];
+    let values = [];
+    let errorFlag = false;
 
     parse(csvData, { delimiter: "," })
       .on("data", function (row) {
         if (row.length !== 2) {
-          return res.sendStatus(400);
+          errorFlag = true;
+          return res.status(400).json({ message: "invalid file format" });
         }
         categories.push(row[0]);
         values.push(row[1]);
       })
       .on("end", async function () {
+        if (errorFlag) return; // Exit the route handler if there was an error
+
         const data = [];
         for (let i = 1; i < categories.length; i++) {
           data.push({
@@ -51,13 +53,17 @@ router.post('/', async (req, res) => {
 
         const messageHandler = async ({ message }) => {
           consumer.stop();
-          res.json({ status: 'success', message: message.value.toString() });
+          if (!res.headersSent) {
+            res.json({ status: 'success', message: message.value.toString() });
+          }
         };
 
         await consumer.run({ eachMessage: messageHandler });
       })
       .on("error", function (error) {
-        res.status(500).json({ status: error.message });
+        if (!res.headersSent) {
+          res.status(500).json({ status: error.message });
+        }
       });
 
   } catch (error) {
@@ -65,5 +71,7 @@ router.post('/', async (req, res) => {
     res.sendStatus(400);
   }
 });
+
+
 
 module.exports = router;

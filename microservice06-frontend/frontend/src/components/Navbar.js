@@ -42,6 +42,9 @@ const Navbar = () => {
         <Link className="about" to="/about">
           About
         </Link>
+        <Link className="about" to="/purchase">
+          Buy Credits
+        </Link>
       </span>
       
       {user ? (
@@ -53,7 +56,7 @@ const Navbar = () => {
               className="avatar"
             />
           </li>
-          <Link className="about" to="/user/charts">{user.googleaccount.displayName}</Link>
+          <Link className="about" to="/user/charts"><b>{user.googleaccount.displayName}</b></Link>
           <Link className="link" onClick={logout}>
             Logout
           </Link>

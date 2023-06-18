@@ -174,7 +174,7 @@ const CreateBar = () => {
           placeholder="Enter title"
         />
       </div>
-      <div>
+      <div style={{paddingTop: "3%"}}>
         <form
           id="form-file-upload"
           onDragEnter={handleDrag}
@@ -210,6 +210,7 @@ const CreateBar = () => {
           )}
         </form>
         <div>
+          Not sure how to format your file?
           <h3>Model your CSV on this example!</h3>
           <a
             href={BarChartCSV}

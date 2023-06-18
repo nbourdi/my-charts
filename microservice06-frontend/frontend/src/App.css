@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
+  font-family: 'Roboto', sans-serif;
 }
 
 
@@ -14,46 +14,49 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#root {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.content {
+  flex: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+footer {
+  background-color: #f5f5f5;
+  padding: 20px;
+  text-align: center;
+  height: calc(100% - 60px);
+}
+
+
+
+#root {
+  height: 100%;
+  overflow: auto;
 }
 
 
 .navbar {
-  height: 50px;
-  background-color: #f5f5f5;
+  height: 55px;
+  background-color: #eaeaea;
   color: black;
   display: flex;
   align-items: center;
   justify-content:space-between;
   padding-left: 10%;
   padding-right: 10%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .logo {
@@ -153,7 +156,7 @@
   color: black;
   display: flex;
   align-items: center;
-  /* {font-weight: bold;} */
+  font-weight: bold;
   margin-bottom: 20px;
   margin-left: 20px;
   margin-right: 20px;
@@ -161,7 +164,7 @@
   cursor: pointer;
   background-color: #f5f5f5;
   box-shadow: none;
-
+  
 }
 
 .loginButton{
@@ -216,7 +219,6 @@ input{
   color: inherit;
   text-decoration: none;
   padding-left: 1.5rem;
-  font-size: 80%;
 }
 .link:hover{
   color:#42f900;
@@ -277,15 +279,16 @@ input{
 }
 
 #label-file-upload {
-  height: 100%;
+  height: 50%;
+  width: 130%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-width: 2px;
-  border-radius: 1rem;
-  border-style: dashed;
+  border-width: 1px;
+  border-style: solid;
   border-color: #cbd5e1;
   background-color: #f8fafc;
+  padding-top: 0%;
 }
 
 #label-file-upload.drag-active {
@@ -306,9 +309,10 @@ input{
 }
 
 #drag-file-element {
+  padding-top: 20%;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 50%;
   border-radius: 1rem;
   top: 0px;
   right: 0px;
@@ -317,12 +321,13 @@ input{
 }
 
 .layout {
-  padding-top: 5%;
-  padding-left: 23.5%;
-  padding-right: 23.5%;
-  padding-bottom: 100%;
+  padding-top: 4%;
+  padding-left: 13%;
+  padding-right: 13%;
+  padding-bottom: 20%;
   flex-direction: column;
   align-items:center;
+  font-family: 'Roboto', sans-serif;
 }
 
 
@@ -371,6 +376,9 @@ input{
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+.title-box {
+  padding-top: 1%;
+}
 .title {
   font-size: 24px;
   font-weight: bold;
@@ -428,9 +436,42 @@ tbody tr:hover {
 }
 
 .about{
-  font-size: 80%;
   font-weight: 350;
   color: inherit;
   text-decoration: none;
   padding-left: 1.5rem;
+  font-size: medium;
+}
+
+/* Example Footer Styles */
+
+footer {
+  background-color: #f5f5f5;
+  padding: 20px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin: 10px 0;
+  color: #777;
 }

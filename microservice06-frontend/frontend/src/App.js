@@ -17,44 +17,14 @@ import CreateStack from "./webpages/create/chart_5";
 import CreateStem from "./webpages/create/chart_6";
 import ProtectedRoutes from "./Protected";
 import { UserProvider } from "./UserContext";
+import Footer from './components/Footer';
 
 
 const App = () => {
-  // const [user, setUser] = useState();
-
-  // useEffect(() => {
-  //   const getUser = () => {
-  //     if (user) {
-  //       return; // Skip the fetch if the user is already set or signed out
-  //     }
-      
-  //     fetch("http://localhost:3000/login/success", {
-  //       method: "GET",
-  //       credentials: "include",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Credentials": true,
-  //       },
-  //     })
-  //       .then((response) => {
-  //         return response.json();
-  //         throw new Error("Authentication has failed!");
-  //       })
-  //       .then((resObject) => {
-  //         setUser(resObject.user);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUser();
-  // }, [user]);
-
 
   return (
     <BrowserRouter>
-      <div>
+      <div className="content">
       <UserProvider>
         <Navbar  />
         <Routes>
@@ -73,6 +43,7 @@ const App = () => {
           <Route path="/About" element={<About />} />
           <Route path="/create/chart_6" element={<CreateStem />} />s
         </Routes>
+        <Footer />
         </UserProvider>
       </div>
     </BrowserRouter>
