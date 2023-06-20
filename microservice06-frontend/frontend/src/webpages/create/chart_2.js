@@ -119,7 +119,7 @@ const CreateSimple = () => {
       //console.log("JOINED");
       const data = {
         title: title,
-        type: "Simple",
+        type: "Simple Linear Chart",
         email:  user.googleaccount.emails[0].value,
         svg: svg
       };

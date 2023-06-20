@@ -120,7 +120,7 @@ const CreateStem = () => {
       //console.log("JOINED");
       const data = {
         title: title,
-        type: "Stem",
+        type: "Stem Chart",
         email:  user.googleaccount.emails[0].value,
         svg: svg
       };

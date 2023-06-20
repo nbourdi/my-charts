@@ -44,6 +44,8 @@ function UserCharts() {
 
   const [user_charts, setUserCharts] = useState([]);
 
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -85,7 +87,6 @@ function UserCharts() {
                   <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_html, svg, obj.chart_title, "html"); }} style={{ marginRight: '10px' }}>html</a>
                   <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_png, svg, obj.chart_title, "png"); }} style={{ marginRight: '10px' }}>png</a>
                   <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_svg, svg, obj.chart_title, "svg"); }}>svg</a>
-
                 </div>
               )
             };
@@ -95,22 +96,55 @@ function UserCharts() {
 
           console.log(data);
           setUserCharts(data);
+          const sortedData = sortData(data, sortConfig);
+          setUserCharts(sortedData);
         })
         .catch((err) => {
           console.log(err);
         });
     };
     getUserCharts();
-  }, []);
+  }, [sortConfig]);
 
-  const handleRowClick = () => {};
+  const sortData = (data, config) => {
+    if (!config.key) {
+      return data;
+    }
+
+    const sortedData = [...data];
+    sortedData.sort((a, b) => {
+      if (a[config.key] < b[config.key]) {
+        return config.direction === 'asc' ? -1 : 1;
+      }
+      if (a[config.key] > b[config.key]) {
+        return config.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    return sortedData;
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const handleRowClick = () => { };
 
   return (
     <div className='layout'>
       {user ? (
         <div>
           <h1>Your Saved Charts</h1>
-          <ScrollableTable data={user_charts} onRowClick={handleRowClick} />
+          <ScrollableTable data={user_charts}
+            onRowClick={handleRowClick}
+            onSort={handleSort}
+            sortConfig={sortConfig}
+          />
         </div>
       ) : (
         <div className="layout">

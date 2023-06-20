@@ -1,14 +1,26 @@
 import React from 'react';
 
-const ScrollableTable = ({ data, onRowClick }) => {
+const ScrollableTable = ({ data, onRowClick, onSort, sortConfig }) => {
+  const handleSort = (key) => {
+    if (onSort) {
+      onSort(key);
+    }
+  };
+
   return (
     <div className="scrollable-table">
       <table>
         <thead>
           <tr>
-            <th>Type</th>
-            <th>Chart Name</th>
-            <th>Date Create</th>
+            <th onClick={() => handleSort('column1')}>
+              Type {sortConfig.key === 'column1' && <span>{sortConfig.direction === 'asc' ? '▲' : '▼'}</span>}
+            </th>
+            <th onClick={() => handleSort('column2')}>
+              Chart Name {sortConfig.key === 'column2' && <span>{sortConfig.direction === 'asc' ? '▲' : '▼'}</span>}
+            </th>
+            <th onClick={() => handleSort('column3')}>
+              Date Create {sortConfig.key === 'column3' && <span>{sortConfig.direction === 'asc' ? '▲' : '▼'}</span>}
+            </th>
             <th>Download</th>
           </tr>
         </thead>

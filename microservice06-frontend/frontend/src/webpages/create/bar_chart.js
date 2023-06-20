@@ -131,7 +131,7 @@ const CreateBar = () => {
       //console.log("JOINED");
       const data = {
         title: title,
-        type: "Bar",
+        type: "Bar Chart",
         email: user.googleaccount.emails[0].value,
         svg: svg
       };
