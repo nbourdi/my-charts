@@ -137,9 +137,11 @@ const CreateSimple = () => {
       if (response.ok) {
         // Chart saved successfully
         console.log("Chart saved successfully");
+        window.alert("Chart saved successfully!");
       } else {
         // Handle error response
         console.error("Failed to save the chart");
+        window.alert("Could not save the chart...");
         // Handle error scenario, e.g., show an error message
       }
     } catch (error) {
