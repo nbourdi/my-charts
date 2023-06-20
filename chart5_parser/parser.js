@@ -16,9 +16,21 @@ router.post('/', async (req, res) => {
     let x = []
     let y = []
 
+    errorFlag = false;
+    row_num = 0;
+
     parse(csvData, { delimiter: "," })
       .on('data', function (row) {
         Object.keys(row).forEach((key, index) => {
+          if (!(/^-?\d+(\.\d+)?%?$/.test(row[key].trim()) || /^-?\.\d+%?$/.test(row[key].trim())) && row_num!=0) {
+            errorFlag = true;
+            console.log("not integer");
+            console.log(row);
+            if (!res.headersSent) {
+              res.status(400).json({ message: "invalid file format" });
+            }
+            return;
+          }
           if (index === 0) {
             x.push(row[key]);
           } else {
@@ -28,8 +40,11 @@ router.post('/', async (req, res) => {
             y[index - 1].push(row[key]);
           }
         });
+        row_num += 1;
       })
       .on('end', async function () {
+        if (errorFlag) return;
+
         const data = [];
         for (let i = 0; i < x.length; i++) {
           const values = y.map((col) => col[i]);

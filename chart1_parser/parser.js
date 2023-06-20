@@ -19,7 +19,11 @@ router.post('/', async (req, res) => {
       .on("data", function (row) {
         if (row.length !== 2) {
           errorFlag = true;
-          return res.status(400).json({ message: "invalid file format" });
+          console.log("no 2 columns");
+          if (!res.headersSent) {
+            res.status(400).json({ message: "invalid file format" });
+          }
+          return;
         }
         categories.push(row[0]);
         values.push(row[1]);
@@ -68,7 +72,7 @@ router.post('/', async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.sendStatus(400);
+    res.status(400).json({ status: error.message });
   }
 });
 

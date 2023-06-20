@@ -90,6 +90,9 @@ const CreateScatter = () => {
         }
       } else {
         // Handle error response
+        console.log(response);
+        window.alert("Cannot prepare your chart!\nYour file contains errors...");
+
         console.error("File upload failed");
         // Handle error scenario, e.g., show an error message
       }

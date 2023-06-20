@@ -16,16 +16,36 @@ router.post('/', async (req, res) => {
     let y = []
     let colors = []
 
+    index = 0;
+    errorFlag = false;
+
     parse(csvData, { delimiter: "," })
       .on("data", function (row) {
         if (row.length !== 3) {
-          return res.sendStatus(400);
+          errorFlag = true;
+          console.log("no 3 columns");
+          if (!res.headersSent) {
+            res.status(400).json({ message: "invalid file format" });
+          }
+          return;
+        }
+        else if ((!(/^-?\d+(\.\d+)?$/.test(row[0].trim()) || /^-?\.\d+$/.test(row[0].trim())) || !(/^-?\d+(\.\d+)?$/.test(row[1].trim()) || /^-?\.\d+$/.test(row[1].trim())) || !(/^-?\d+(\.\d+)?$/.test(row[2].trim()) || /^-?\.\d+$/.test(row[2].trim()))) && index != 0){
+          errorFlag = true;
+          console.log("not integer");
+          if (!res.headersSent) {
+            res.status(400).json({ message: "invalid file format" });
+          }
+          return;
         }
         x.push(row[0]);
         y.push(row[1]);
         colors.push(row[2]);
+
+        index += 1;
       })
       .on("end", async function () {
+        if (errorFlag) return;
+
         const data = [];
         for (let i = 1; i < y.length; i++) {
           data.push({

@@ -105,6 +105,7 @@ const CreateBar = () => {
           }
           )
       } else {
+        console.log(response);
         window.alert("Cannot prepare your chart!\nYour file contains errors...");
 
         console.error("File upload failed");
