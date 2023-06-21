@@ -25,6 +25,8 @@ const Credits = () => {
 
             const feedback = new Text("You just successfully bought " + selectedPlan + " credits.");
             const container = document.getElementById("feedback-container");
+            container.innerHTML = ""; // Clear existing content
+
             container.appendChild(feedback);
             setBought(true);
             }    

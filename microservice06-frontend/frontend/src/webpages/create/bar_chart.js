@@ -94,6 +94,8 @@ const CreateBar = () => {
 
               // Append the image to the DOM
               const container = document.getElementById("image-container");
+              container.innerHTML = ""; // Clear existing chart if the user has already produced one
+
               container.appendChild(image);
               setImageAppended(true);
             }

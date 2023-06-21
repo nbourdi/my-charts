@@ -3,3 +3,4 @@ package-lock.json
 /microservice01/package-lock.json
 /microservice02/package-lock.json
 /microservice03/package-lock.json
+/mysql-data

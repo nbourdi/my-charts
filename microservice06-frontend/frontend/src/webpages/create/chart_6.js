@@ -80,13 +80,14 @@ const CreateStem = () => {
   
           // Append the image to the DOM
           const container = document.getElementById("image-container");
+          container.innerHTML = ""; // Clear existing content
+
           container.appendChild(image);
           setImageAppended(true);
           
         } else {
           // Handle error response
           console.error("File upload failed:", message);
-          // Handle error scenario, e.g., show an error message
         }
       } else {
         // Handle error response
@@ -94,12 +95,10 @@ const CreateStem = () => {
         window.alert("Cannot prepare your chart!\nYour file contains errors...");
 
         console.error("File upload failed");
-        // Handle error scenario, e.g., show an error message
       }
     } catch (error) {
       // Handle network error
       console.error("Network error:", error);
-      // Handle error scenario, e.g., show an error message
     }
   };
   

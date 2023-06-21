@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     connectionLimit: 5,				// for the database to run we need host: 127.0.0.1 / user: root / password: (empty)
-	host: "172.17.0.4",
+	host: "mysql_users",
 	user: "root",
 	password: "password",
 	database: 'user6',

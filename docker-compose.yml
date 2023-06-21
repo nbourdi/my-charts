@@ -6,7 +6,6 @@ services:
     ports: 
       - 2181:2181
 
-
   kafka: 
     container_name: kafka
     image: wurstmeister/kafka
@@ -224,6 +223,31 @@ services:
       - 9130:9130
     volumes:
       - ./downloader:/app
+
+  mysql_users:
+    image: mysql:5.7
+    container_name: mysql_users
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=user6
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql_users
+
+  auth:
+    build: ./auth_service
+    container_name: auth
+    depends_on:
+      - mysql_users
+    ports:
+      - 3000:3000
       
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3030:3030
 volumes:
   data:

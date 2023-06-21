@@ -80,6 +80,8 @@ const CreateSimple = () => {
   
           // Append the image to the DOM
           const container = document.getElementById("image-container");
+          container.innerHTML = ""; // Clear existing content
+
           container.appendChild(image);
           setImageAppended(true);
           
