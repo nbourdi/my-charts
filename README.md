@@ -5,9 +5,7 @@
 MyCharts is a microservice-based application that allows users to upload their CSV files and transform them into sleek, modular charts. It offers a selection of six chart types based on Python's Matplotlib library. The application is fully dockerized and utilizes state-of-the-art technologies to achieve optimization and ensure scalability, reliability and real-time processing of user data. Users can connect with their Google Account to start their free trial with 9 credits and then buy more credits at opportune prices in our store. Charts created can be stored in our database or downloaded into the user's personal computer in whichever file-type they want.    
 
 ### Features
-**CSV Upload**: Users can upload their CSV files to the application.
-
-**Chart Generation**: The application generates interactive charts based on the uploaded CSV data.
+**CSV Upload**: Users can upload their CSV files to the application to have them turned into charts.
 
 **Multiple Chart Types**: Users can choose from six different chart types to visualize their data.
 
