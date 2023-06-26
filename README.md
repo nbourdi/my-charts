@@ -29,6 +29,6 @@ Once the application is up and running, follow these steps to use MyCharts:
 ### Members:
 
 - Athina Mavrommati (el19120)
-- Natalia Bourdi (el19031)
 - Giorgos Mystriotis (el19065)
-- Nikolas Stamatopoulos (el19020)
+- Natalia Bourdi (el19031)
+- Nikolaos Stamatopoulos (el19020)
