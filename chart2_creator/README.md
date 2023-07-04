@@ -1,5 +1,5 @@
 # MICROSERVICE
 
-## Simple Line Diagram Parser
+## Simple Line Diagram Creator
 
-Parses the csv data for the Simple Line Diagram chart-type while also performing checks for proper format. It represents a Kafka producer that sends the parsed data to the appropriate topic.   
+Creates the plot for the Simple Line Diagram chart-type. It creates a Python child-process that utilizes the Matplotlib library to plot the data and produces an svg string of the chart. The data is accessed through a group of Kafka consumers listening to the appropriate topic. 
