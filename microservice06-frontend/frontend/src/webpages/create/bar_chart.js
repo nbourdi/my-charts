@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import BarChartCSV from "./bar_chart.csv";
 import UserContext from "../../UserContext";
 
-let svg;
 const CreateBar = () => {
   // drag state
   const [dragActive, setDragActive] = React.useState(false);
   const [imageAppended, setImageAppended] = React.useState(false);
   const [title, setTitle] = React.useState("");
+  const [svgString, setSvgString] = React.useState("");
+
 
   // ref
   const inputRef = React.useRef(null);
@@ -86,11 +87,12 @@ const CreateBar = () => {
               const svgBuffer = JSON.parse(message).svg.data;
               const uint8Array = new Uint8Array(svgBuffer);
               const decoder = new TextDecoder("utf-8");
-              const svgString = decoder.decode(uint8Array);
-              console.log(svgString);
+              const svg = decoder.decode(uint8Array);
+              //console.log(svg);
+              setSvgString(svg);
               // Render the SVG as an image
               const image = new Image();
-              image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString);
+              image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 
               // Append the image to the DOM
               const container = document.getElementById("image-container");
@@ -135,8 +137,9 @@ const CreateBar = () => {
         title: title,
         type: "Bar Chart",
         email: user.googleaccount.emails[0].value,
-        svg: svg
+        svg: svgString
       };
+      console.log(svgString);
       const response = await fetch(
         "http://localhost:9106/chart_to_database/add_chart",
         {
