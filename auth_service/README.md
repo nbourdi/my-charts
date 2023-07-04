@@ -1,6 +1,6 @@
 # MICROSERVICE
 
-## (name)
+## Authorisation service
 
-(description)
+Handles user authentication (through Google) and manages user credits (redeem, purchase etc)
 
