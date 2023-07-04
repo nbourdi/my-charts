@@ -8,6 +8,8 @@ const CreateStack = () => {
   const [dragActive, setDragActive] = React.useState(false);
   const [imageAppended, setImageAppended] = React.useState(false);
   const [title, setTitle] = React.useState("");
+  const [svgString, setSvgString] = React.useState("");
+
   // ref
   const inputRef = React.useRef(null);
   const { user } = useContext(UserContext);
@@ -71,11 +73,12 @@ const CreateStack = () => {
           const svgBuffer = JSON.parse(message).svg.data;
           const uint8Array = new Uint8Array(svgBuffer);
           const decoder = new TextDecoder("utf-8");
-          const svgString = decoder.decode(uint8Array);
+          const svg = decoder.decode(uint8Array);
+          setSvgString(svg);
           console.log(svgString);
           // Render the SVG as an image
           const image = new Image();
-          image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString);
+          image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   
           // Append the image to the DOM
           const container = document.getElementById("image-container");
@@ -119,7 +122,7 @@ const CreateStack = () => {
         title: title,
         type: "Simple Plot",
         email:  user.googleaccount.emails[0].value,
-        svg: svg
+        svg: svgString
       };
       const response = await fetch(
         "http://localhost:9106/chart_to_database/add_chart",
