@@ -1,6 +1,5 @@
 # MICROSERVICE
 
-## (name)
+## Get Chart from Database
 
-(description)
-
+Retrieves the saved chart from the system’s database.
