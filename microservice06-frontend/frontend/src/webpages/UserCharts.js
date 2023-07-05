@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ScrollableTable from '../components/ScrollableTable';
 import UserContext from '../UserContext';
 
-function callEndpoint(url, svg, title, type) {
+function callEndpoint(url, svg, title, type, setPreviewUrl, setExtension, setTitle) {
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -14,24 +14,13 @@ function callEndpoint(url, svg, title, type) {
     },
   })
     .then(response => {
-      const filename = title;
-      const extension = type;
 
       // Create a URL for the blob object
       return response.blob().then(blob => {
-        console.log(blob);
         const url = URL.createObjectURL(blob);
-
-        // Create a temporary anchor element
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = filename + "_" + extension;
-
-        // Programmatically click the anchor to trigger the download
-        anchor.click();
-
-        // Clean up the temporary anchor and URL
-        URL.revokeObjectURL(url);
+        setPreviewUrl(url); // Set the preview URL for rendering
+        setExtension(type);
+        setTitle(title);
       });
     })
     .catch(error => {
@@ -40,9 +29,29 @@ function callEndpoint(url, svg, title, type) {
     });
 }
 
+function handleDownloadClick(title, type, previewUrl) {
+  const filename = title;
+  const extension = type;
+  console.log(filename);
+  console.log(extension);
+  console.log(previewUrl);
+
+  // Create a temporary anchor element
+  const anchor = document.createElement('a');
+  anchor.href = previewUrl;
+  anchor.download = `${filename}_${extension}`;
+
+  // Programmatically click the anchor to trigger the download
+  anchor.click();
+}
+
+
 function UserCharts() {
 
   const [user_charts, setUserCharts] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [title, setTitle] = useState('');
+  const [type, setExtension] = useState('');
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
@@ -83,10 +92,10 @@ function UserCharts() {
               column3: obj.date.split('T')[0],
               column4: (
                 <div>
-                  <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_pdf, svg, obj.chart_title, "pdf"); }} style={{ marginRight: '10px' }}>pdf</a>
-                  <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_html, svg, obj.chart_title, "html"); }} style={{ marginRight: '10px' }}>html</a>
-                  <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_png, svg, obj.chart_title, "png"); }} style={{ marginRight: '10px' }}>png</a>
-                  <a href="#" onClick={(event) => { event.preventDefault(); callEndpoint(url_svg, svg, obj.chart_title, "svg"); }}>svg</a>
+                  <button onClick={() => callEndpoint(url_pdf, svg, obj.chart_title, "pdf", setPreviewUrl, setExtension, setTitle)}>Preview PDF</button>
+                  <button onClick={() => callEndpoint(url_html, svg, obj.chart_title, "html", setPreviewUrl, setExtension, setTitle)}>Preview HTML</button>
+                  <button onClick={() => callEndpoint(url_png, svg, obj.chart_title, "png", setPreviewUrl, setExtension, setTitle)}>Preview PNG</button>
+                  <button onClick={() => callEndpoint(url_svg, svg, obj.chart_title, "svg", setPreviewUrl, setExtension, setTitle)}>Preview SVG</button>
                 </div>
               )
             };
@@ -140,15 +149,28 @@ function UserCharts() {
       {user ? (
         <div>
           <h1>Your Saved Charts</h1>
-          <ScrollableTable data={user_charts}
+          <ScrollableTable
+            data={user_charts}
             onRowClick={handleRowClick}
             onSort={handleSort}
             sortConfig={sortConfig}
           />
+          {previewUrl && (
+            <div>
+              <h2>Preview:</h2>
+              <iframe src={previewUrl} width="800" height="500" title="Preview"></iframe>
+            </div>
+          )}
+          {previewUrl && (
+            <div>
+              <button onClick={() => handleDownloadClick(title, type, previewUrl)}>Download</button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="layout">
-          <h1>Looks like you're not authorized to view this page. </h1><br></br>
+          <h1>Looks like you're not authorized to view this page. </h1>
+          <br />
           Please Sign In to use our service...
         </div>
       )}
