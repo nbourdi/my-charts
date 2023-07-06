@@ -64,33 +64,45 @@ const CreatePolar = () => {
       if (response.ok) {
         const jsonResponse = await response.json();
         const { status, message } = jsonResponse;
-  
-        if (status === "success") {
-          // File uploaded successfully
-          console.log("File uploaded successfully");
-  
-          // Extract SVG string from the message attribute
-          const svgBuffer = JSON.parse(message).svg.data;
-          const uint8Array = new Uint8Array(svgBuffer);
-          const decoder = new TextDecoder("utf-8");
-          const svg = decoder.decode(uint8Array);
-          setSvgString(svg);
-          console.log(svgString);
-          // Render the SVG as an image
-          const image = new Image();
-          image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-  
-          // Append the image to the DOM
-          const container = document.getElementById("image-container");
-          container.innerHTML = ""; // Clear existing content
 
-          container.appendChild(image);
-          setImageAppended(true);
-          
-        } else {
-          // Handle error response
-          console.error("File upload failed:", message);
-        }
+        fetch(`http://localhost:3000/redeem`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (res.ok) {
+              // File uploaded successfully
+              console.log("File uploaded successfully");
+
+              // Extract SVG string from the message attribute
+              const svgBuffer = JSON.parse(message).svg.data;
+              const uint8Array = new Uint8Array(svgBuffer);
+              const decoder = new TextDecoder("utf-8");
+              const svg = decoder.decode(uint8Array);
+              //console.log(svg);
+              setSvgString(svg);
+              // Render the SVG as an image
+              const image = new Image();
+              image.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+
+              // Append the image to the DOM
+              const container = document.getElementById("image-container");
+              container.innerHTML = ""; // Clear existing chart if the user has already produced one
+
+              container.appendChild(image);
+              setImageAppended(true);
+            }
+            else {
+              const text = new Text("You don't have enough credits...")
+              const container = document.getElementById("image-container");
+              container.appendChild(text);
+            }
+          }
+          )
       } else {
         // Handle error response
         console.log(response);
@@ -191,7 +203,7 @@ const CreatePolar = () => {
       </div>
     </div>
     <div>
-        <div id="image-container" style={{ border: "2px dashed grey" }}></div>
+        <div id="image-container" ></div>
         {imageAppended && (
           <button className="button" onClick={handleSaveChart}>
             Save Chart

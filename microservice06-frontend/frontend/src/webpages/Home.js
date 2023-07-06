@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useSnapCarousel } from 'react-snap-carousel';
+import UserContext from "../UserContext";
 
 const Home = () => {
   const { scrollRef, next } = useSnapCarousel();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,9 +21,16 @@ const Home = () => {
       <div>
         <h1>Welcome to MyCharts</h1>
       </div>
-      <div>
-        Select a chart type to see how each one works... or <b>sign in with your Google account</b> to start creating your own.
+      {user ? (<div>
+        Select a chart type to start creating your own.
       </div>
+      ) : (
+      <div>
+        Sign in with your Google account to start creating your own charts.
+      </div>
+      )
+      }
+      
 
       <div style={{ paddingTop: '3rem' }}>
         <ul

@@ -245,7 +245,7 @@ services:
       
   frontend:
     build:
-      context: ./frontend
+      context: ./microservice06-frontend/frontend
       dockerfile: Dockerfile
     ports:
       - 3030:3030
