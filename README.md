@@ -43,6 +43,3 @@ Once the application is up and running, you can follow these steps to use MyChar
 
 ###
 ###
-
-![image](https://github.com/ntua/SaaS23-13/assets/115226054/655f8e37-67e9-4a06-a9c2-d7f5326b8149)
-
